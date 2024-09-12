@@ -1,6 +1,6 @@
+import { Outlet } from 'react-router-dom'
 import classes from './layout.module.scss'
 import Header from '../components/header.jsx'
-import HomePage from './homePage/homePage.jsx'
 
 const Layout = () => {
 
@@ -8,7 +8,7 @@ const Layout = () => {
     <>
       <Header/>
       <div className={classes.layout}>
-        <HomePage/>
+        <Outlet/>
 
       </div>
     </>
