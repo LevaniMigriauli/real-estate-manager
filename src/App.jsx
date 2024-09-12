@@ -1,10 +1,17 @@
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
+import Layout from './pages/layout.jsx'
 
-function App() {
+function App () {
 
   return (
     <>
-      Let's start
+      <BrowserRouter>
+        <Routes>
+          <Route path={'/'} element={<Layout/>}/>
+
+        </Routes>
+      </BrowserRouter>
     </>
   )
 }
