@@ -1,21 +1,9 @@
 import './regionSelect.scss'
 import CustomSelect from '../../../lib/select.jsx'
+import { useSelector } from 'react-redux'
 
-const options = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' },
-  { value: 'mango', label: 'Mango' },
-  { value: 'pineapple', label: 'Pineapple' },
-  { value: 'blueberry', label: 'Blueberry' },
-  { value: 'raspberry', label: 'Raspberry' },
-  { value: 'peach', label: 'Peach' },
-  { value: 'lime', label: 'Lime' },
-  { value: 'lemon', label: 'Lemon' },
-  { value: 'apple', label: 'Apple' },
-  { value: 'banana', label: 'Banana' }
-]
 const RegionSelect = () => {
+  const regionOptions = useSelector(state=> state.regions)
 
   const option = (props) => {
     console.log(props)
@@ -37,7 +25,7 @@ const RegionSelect = () => {
     </>
   }
 
-  return <CustomSelect options={options} isMulti
+  return <CustomSelect options={regionOptions} isMulti
                        customMenuListContent={menuList} option={option}
                        placeholder={'რეგიონი'}
                        menuHeader={'რეგიონის მიხედვით'}/>

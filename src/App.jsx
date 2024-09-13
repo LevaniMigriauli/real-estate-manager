@@ -1,12 +1,24 @@
+import { useEffect } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import './App.css'
 import Layout from './pages/layout.jsx'
 import ListingPage from './pages/listingPage/listingPage.jsx'
 import HomePage from './pages/homePage/homePage.jsx'
 import ErrorPage from './pages/errorPage.jsx'
 import AddListingPage from './pages/addListingPage/addListingPage.jsx'
+import { getRegions } from './api/geographicalInfo.js'
+import { setRegions } from './redux/regionSlice.js'
 
 function App () {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    getRegions().then(res => {
+      console.log(res)
+      dispatch(setRegions(res))
+    })
+  }, [])
 
   return (
     <>
