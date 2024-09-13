@@ -1,39 +1,33 @@
-import { useState } from 'react';
-import Select, { components } from 'react-select';
-import './CustomSelect.scss';
+import { useState } from 'react'
+import Select, { components } from 'react-select'
+import './select.scss'
 
 export const CustomOption = (props) => {
   return (
     <components.Option {...props}>
-      <div className={`custom-checkbox ${props.isSelected ? 'checked' : ''}`}>
-        {props.isSelected && <span className="checkbox-tick">✔</span>}
-      </div>
-      {props.label}
+      {props.option}
     </components.Option>
-  );
-};
+  )
+}
 
 const CustomMenuList = (props) => {
-  const handleCloseMenu = () => {
-    props.setMenuIsOpen(false);
-  };
+  const handleCloseMenu = () => props.setMenuIsOpen(false)
 
   return (
     <components.MenuList {...props}>
-      <div className="grid-container">
-        {props.children}
-      </div>
+      <h4>{props.menuHeader}</h4>
+      {props.customMenuListContent}
       <div className="button-container">
         <button className="submit-button" onClick={handleCloseMenu}>
           Submit
         </button>
       </div>
     </components.MenuList>
-  );
-};
+  )
+}
 
 const CustomDropdownIndicator = (props) => {
-  const { menuIsOpen } = props.selectProps;
+  const { menuIsOpen } = props.selectProps
   return (
     <components.DropdownIndicator {...props}>
       {menuIsOpen ? (
@@ -42,19 +36,35 @@ const CustomDropdownIndicator = (props) => {
         <span>&#x25BC;</span>
       )}
     </components.DropdownIndicator>
-  );
-};
+  )
+}
 
-const CustomSelect = ({options, isMulti}) => {
-  const [menuIsOpen, setMenuIsOpen] = useState(false);
+const CustomSelect = ({
+  options,
+  isMulti,
+  customMenuListContent,
+  option,
+  placeholder,
+  menuHeader
+}) => {
+  const [menuIsOpen, setMenuIsOpen] = useState(false)
 
   return (
     <Select
       options={options}
       isMulti={isMulti}
       components={{
-        MenuList: (props) => <CustomMenuList {...props} setMenuIsOpen={setMenuIsOpen} />,
-        Option: CustomOption,
+        MenuList: (props) => <CustomMenuList {...props}
+                                             setMenuIsOpen={setMenuIsOpen}
+                                             menuHeader={menuHeader}
+                                             customMenuListContent={customMenuListContent &&
+                                               customMenuListContent({
+                                                 ...props,
+                                                 setMenuIsOpen
+                                               })}/>,
+        Option: (props) => option &&
+          (<CustomOption {...props} menuIsOpen={menuIsOpen}
+                         option={option && option(props)}/>),
         DropdownIndicator: CustomDropdownIndicator
       }}
       closeMenuOnSelect={false}
@@ -63,8 +73,10 @@ const CustomSelect = ({options, isMulti}) => {
       onMenuOpen={() => setMenuIsOpen(true)}
       onMenuClose={() => setMenuIsOpen(false)}
       controlShouldRenderValue={false}
-      placeholder={'რეგიონი'}
+      placeholder={placeholder}
       isClearable={false}
+      isSearchable={false}
+      inputValue={''}
       styles={{
         menu: (provided) => ({
           ...provided,
@@ -75,21 +87,18 @@ const CustomSelect = ({options, isMulti}) => {
           ...provided,
           cursor: 'pointer',
           height: '35px',
-          width: '116px',
+          minHeight: 'auto',
+          width: 'fit-content',
           border: 'none',
           boxShadow: 'none',
           backgroundColor: state.isFocused ? '#f0f0f0' : 'white'
         }),
-        // dropdownIndicator: (provided) => ({
-        //   ...provided,
-        //   padding: '0',
-        // }),
         indicatorSeparator: () => ({
-          display: 'none',
-        }),
+          display: 'none'
+        })
       }}
     />
-  );
-};
+  )
+}
 
-export default CustomSelect;
+export default CustomSelect
