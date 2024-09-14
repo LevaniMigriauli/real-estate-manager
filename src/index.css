@@ -1,21 +1,26 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 
-  --color-light-gray: #DBDBDB;
+    --color-light-gray: #DBDBDB;
+    --color-cool-gray: #808A93;
+    --color-rich-black: #021526;
+    --color-green-success: #45A849;
+    --color-red-error: #F93B1D;
+    --color-charcoal-blue: #2D3648;
 }
 
 body {
-  place-items: center;
-  min-height: 100vh;
+    place-items: center;
+    min-height: 100vh;
 }
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }

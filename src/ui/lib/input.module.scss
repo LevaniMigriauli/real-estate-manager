@@ -1,0 +1,35 @@
+.form-input {
+  display: flex;
+  flex-direction: column;
+
+  label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: var(--color-rich-black);
+  }
+
+  input {
+    line-height: 14px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--color-cool-gray);
+    outline: none;
+    margin-bottom: 4px;
+  }
+
+  .inp-error {
+    border-color: var(--color-red-error);;
+  }
+
+  .hint {
+    font-size: 14px;
+  }
+}
+
+.green {
+  color: var(--color-green-success)
+}
+
+.error-red {
+  color: var(--color-red-error);
+}
