@@ -1,5 +1,5 @@
 import './regionSelect.scss'
-import CustomSelect from '../../../lib/select.jsx'
+import CustomSelect from '../../../ui/lib/select.jsx'
 import { useSelector } from 'react-redux'
 
 const RegionSelect = () => {

@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import CustomSelect from '../../../lib/select.jsx';
+import CustomSelect from '../../../ui/lib/select.jsx';
 
 
 
