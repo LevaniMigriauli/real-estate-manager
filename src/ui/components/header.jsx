@@ -1,4 +1,4 @@
-import logo from '../assets/images/Logo-Main.png'
+import logo from '../../assets/images/Logo-Main.png'
 import classes from './header.module.scss'
 
 const Header = () => {

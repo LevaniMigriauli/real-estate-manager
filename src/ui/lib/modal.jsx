@@ -3,7 +3,7 @@ import Modal from 'react-modal'
 
 Modal.setAppElement('#root')
 
-const CustomModal = forwardRef(({ isOpen, children, padding }, ref) => {
+const CustomModal = forwardRef(({ isOpen, children, padding, borderRadius }, ref) => {
   const [modalIsOpen, setModalIsOpen] = useState(isOpen || false)
 
   useImperativeHandle(ref, () => ({
@@ -35,7 +35,8 @@ const CustomModal = forwardRef(({ isOpen, children, padding }, ref) => {
             right: 'auto',
             bottom: 'auto',
             transform: 'translate(-50%, -50%)',
-            padding: `${padding}`
+            padding: `${padding}`,
+            borderRadius: borderRadius
           }
         }}
       >
