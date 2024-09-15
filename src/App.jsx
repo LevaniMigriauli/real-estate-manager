@@ -9,7 +9,7 @@ import ErrorPage from './pages/errorPage.jsx'
 import AddListingPage from './pages/addListingPage/addListingPage.jsx'
 import SvgIcons from './ui/shared/svgIcons/svgIcons.jsx'
 import { getRegions } from './api/geographicalInfo.js'
-import { setRegions } from './redux/regionSlice.js'
+import { setRegions } from './redux/slices/regionSlice.js'
 
 function App () {
   const dispatch = useDispatch()
