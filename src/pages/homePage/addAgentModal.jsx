@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import CustomModal from '../../ui/lib/modal.jsx'
 import Input from '../../ui/lib/input.jsx'
 import ImagePicker from '../../ui/lib/imagePicker.jsx'
+import { createAgents } from '../../api/agents.js'
 
 const AddAgentModal = forwardRef(({}, ref) => {
   const {
@@ -12,16 +13,42 @@ const AddAgentModal = forwardRef(({}, ref) => {
     setValue,
     getValues,
     resetField,
+    reset,
     formState: { errors, touchedFields }
   } = useForm({
     mode: 'onBlur'
   })
 
   const onSubmit = (data) => {
+    const form = new FormData()
 
+    form.append('name', data.agentName)
+    form.append('surname', data.surname)
+    form.append('email', data.email)
+    form.append('phone', data.phoneNumber)
+
+    if (data.agentPhoto) {
+      form.append('avatar', data.agentPhoto)
+    } else {
+      //error toast
+      return
+    }
+
+    createAgents(form).then(() => {
+      // success toast
+    }).catch(() => {
+      // error toast
+    }).finally(() => {
+      reset()
+    })
   }
 
-  return <CustomModal ref={ref} padding={'87px 105px'} borderRadius={'10px'}>
+  const handleModalClose = () => {
+    reset()
+  }
+
+  return <CustomModal ref={ref} padding={'87px 105px'} borderRadius={'10px'}
+                      width={'1009px'} handleModalClose={handleModalClose}>
     <h4>აგენტის დამატება</h4>
     <form onSubmit={handleSubmit(onSubmit)}>
       <Input name="agentName"

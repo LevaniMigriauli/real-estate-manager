@@ -12,9 +12,16 @@ const ImagePicker = ({
   resetField
 }) => {
   const imageInputRef = useRef(null)
-  const [imagePreview, setImagePreview] = useState(getValues(name) || undefined)
+  const [imagePreview, setImagePreview] = useState()
 
   const fileMaxSize = 1048576
+
+  useEffect(() => {
+    const storedImage = getValues(name)
+    if (storedImage) {
+      setImagePreview(URL.createObjectURL(storedImage))
+    }
+  }, [getValues, name])
 
   const handlePickClick = () =>
     imageInputRef.current.click()
@@ -46,6 +53,7 @@ const ImagePicker = ({
   const handleDeleteImage = () => {
     resetField(name)
     setImagePreview(null)
+    imageInputRef.current.value = ''
   }
 
   useEffect(() => {

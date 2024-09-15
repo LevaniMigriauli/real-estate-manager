@@ -7,7 +7,7 @@ const BASE_URL = 'https://api.real-estate-manager.redberryinternship.ge/api'
 const apiClient = axios.create({
   baseURL: BASE_URL,
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'multipart/form-data'
   }
 })
 
