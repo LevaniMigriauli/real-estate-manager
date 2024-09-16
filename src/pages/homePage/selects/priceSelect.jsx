@@ -1,117 +1,151 @@
-import { useRef, useState } from 'react';
-import CustomSelect from '../../../ui/lib/select.jsx';
+import { useState, useRef, useEffect } from 'react'
+import styles from './priceSelect.module.scss'
 
+const priceOptions = [
+  '50000',
+  '100000',
+  '150000',
+  '200000',
+  '300000'
+]
 
+const PriceSelect = ({ dropDownDataForFilter, setDropDownDataForFilter }) => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const [minInputValue, setMinInputValue] = useState('')
+  const [maxInputValue, setMaxInputValue] = useState('')
+  const [minTemporaryValue, setMinTemporaryValue] = useState('')
+  const [maxTemporaryValue, setMaxTemporaryValue] = useState('')
+  const inputRef = useRef(null)
 
-const PriceSelect = () => {
-  const inpRef = useRef();
-  const [minPrice, setMinPrice] = useState('');
-  const [maxPrice, setMaxPrice] = useState('');
+  const { priceRange: { min, max } } = dropDownDataForFilter
 
+  const handleInputChange1 = (e) => {
+    setMinTemporaryValue(e.target.value)
+    setIsDropdownOpen(true)
+  }
 
-  const options = [
-    {
-      label: 'Min Price',
-      isInput: true,  // Identify as input field
-      value: minPrice,
-      onChange: (e) => setMinPrice(e.target.value),  // Handle input change
-      placeholder: 'Enter min price'
-    },
-    {
-      label: 'Max Price',
-      isInput: true,  // Identify as input field
-      value: maxPrice,
-      onChange: (e) => setMaxPrice(e.target.value),  // Handle input change
-      placeholder: 'Enter max price'
-    },
-    { label: '50,000 ₾', value: '50000' },  // Regular selectable options
-    { label: '100,000 ₾', value: '100000' },
-    { label: '150,000 ₾', value: '150000' },
-    { label: '200,000 ₾', value: '200000' },
-    { label: '300,000 ₾', value: '300000' }
-  ];
+  const handleInputChange2 = (e) => {
+    setMaxTemporaryValue(e.target.value)
+    setIsDropdownOpen(true)
+  }
 
-  const handleMinPriceChange = (e) => {
-    setMinPrice(e.target.value);
-  };
+  const handleOptionClick1 = (option) => {
+    setMinTemporaryValue(option)
+  }
 
-  const handleMaxPriceChange = (e) => {
-    setMaxPrice(e.target.value);
-  };
+  const handleOptionClick2 = (option) => {
+    setMaxTemporaryValue(option)
+  }
 
-  const menuList = (props) => {
-    const handleClick = (e) => {
-      e.stopPropagation();
-      inpRef.current.focus();
-      props.setMenuIsOpen(true);
-    };
+  const submitCustomText = () => {
+    setDropDownDataForFilter(prevState => ({
+      ...prevState,
+      priceRange: {
+        min: minTemporaryValue || prevState.priceRange.min,
+        max: maxTemporaryValue || prevState.priceRange.max
+      }
+    }))
 
+    if (minTemporaryValue) {
+      setMinInputValue(minTemporaryValue)
+    }
+    if (maxTemporaryValue) {
+      setMaxInputValue(maxTemporaryValue)
+    }
+    setIsDropdownOpen(false)
+  }
 
-    return (
-      <div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-          <div style={{ width: '48%' }}>
-            <label>Min Price:</label>
-            <input
-              ref={inpRef}
-              type="text"
-              value={minPrice}
-              onClick={handleClick}
-              onChange={handleMinPriceChange}
-              placeholder="Enter min price"
-              style={{ width: '100%', padding: '8px' }}
-            />
-          </div>
-          <div style={{ width: '48%' }}>
-            <label>Max Price:</label>
-            <input
-              type="text"
-              value={maxPrice}
-              onClick={handleClick}
-              onChange={handleMaxPriceChange}
-              placeholder="Enter max price"
-              style={{ width: '100%', padding: '8px' }}
-            />
-          </div>
-        </div>
+  const handleClickOutside = (e) => {
+    if (inputRef.current && !inputRef.current.contains(e.target)) {
+      setIsDropdownOpen(false)
+      setMinTemporaryValue(minInputValue)
+      setMaxTemporaryValue(maxInputValue)
+    }
+  }
 
-        {/* Options in two columns */}
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <div>
-            <label>Min Price Options:</label>
-            <div onClick={() => setMinPrice('50,000')} style={optionStyle}>50,000 ₾</div>
-            <div onClick={() => setMinPrice('100,000')} style={optionStyle}>100,000 ₾</div>
-            <div onClick={() => setMinPrice('150,000')} style={optionStyle}>150,000 ₾</div>
-            <div onClick={() => setMinPrice('200,000')} style={optionStyle}>200,000 ₾</div>
-            <div onClick={() => setMinPrice('300,000')} style={optionStyle}>300,000 ₾</div>
-          </div>
-          <div>
-            <label>Max Price Options:</label>
-            <div onClick={() => setMaxPrice('50,000')} style={optionStyle}>50,000 ₾</div>
-            <div onClick={() => setMaxPrice('100,000')} style={optionStyle}>100,000 ₾</div>
-            <div onClick={() => setMaxPrice('150,000')} style={optionStyle}>150,000 ₾</div>
-            <div onClick={() => setMaxPrice('200,000')} style={optionStyle}>200,000 ₾</div>
-            <div onClick={() => setMaxPrice('300,000')} style={optionStyle}>300,000 ₾</div>
-          </div>
-        </div>
-      </div>
-    );
-  };
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [minInputValue, maxInputValue])
 
-  const optionStyle = {
-    cursor: 'pointer',
-    padding: '8px 0',
-    borderBottom: '1px solid #eee',
-  };
+  const isOptionMatching = (option, temporaryValue) =>
+    option.toLowerCase() === temporaryValue.toLowerCase()
 
   return (
-    <CustomSelect
-      placeholder={'საფასო კატეგორია'}
-      customMenuListContent={menuList}
-      menuHeader={'ფასის მიხედვით'}
-      options={options}
-    />
-  );
-};
+    <div className={styles.customSelectContainer} ref={inputRef}>
+      <div className={styles.selectedValue}
+           onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+        {min || max
+          ? `${min || 'Select'} / ${max || 'Select'}`
+          : 'საფასო კატეგორია'}
+      </div>
 
-export default PriceSelect;
+      {isDropdownOpen && (
+        <div className={styles.mergedDropdownMenu}>
+          <div className={styles.columnsContainer}>
+
+            <div className={styles.column}>
+              <div className={styles.inputButtonContainer}>
+                <input
+                  type="text"
+                  className={styles.dropdownInput}
+                  placeholder="დან"
+                  value={minTemporaryValue}
+                  onChange={handleInputChange1}
+                />
+              </div>
+              <div className={styles.dropdownOptions}>
+                <p>მინ. ფასი</p>
+                {priceOptions.map((option, index) => (
+                  <div
+                    key={index}
+                    className={`${styles.dropdownOption} ${isOptionMatching(
+                      option, minTemporaryValue) ? styles.highlighted : ''}`}
+                    onClick={() => handleOptionClick1(option)}
+                  >
+                    {option}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className={styles.column}>
+              <div className={styles.inputButtonContainer}>
+                <input
+                  type="text"
+                  className={styles.dropdownInput}
+                  placeholder="მდე"
+                  value={maxTemporaryValue}
+                  onChange={handleInputChange2}
+                />
+              </div>
+              <div className={styles.dropdownOptions}>
+                <p>მაქს. ფასი</p>
+                {priceOptions.map((option, index) => (
+                  <div
+                    key={index}
+                    className={`${styles.dropdownOption} ${isOptionMatching(
+                      option, maxTemporaryValue) ? styles.highlighted : ''}`}
+                    onClick={() => handleOptionClick2(option)}
+                  >
+                    {option}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className={styles.submitContainer}>
+            <button className={styles.submitButton} onClick={submitCustomText}>
+              არჩევა
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+export default PriceSelect

@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { getCities } from '../../api/geographicalInfo.js'
-import { setCities } from '../../redux/citiesSlice.js'
+import { setCities } from '../../redux/slices/citiesSlice.js'
 
 const AddListingPage = () => {
   const dispatch = useDispatch()
