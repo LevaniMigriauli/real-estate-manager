@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import styles from './priceSelect.module.scss'
+import classes from './priceSelect.module.scss'
 
 const priceOptions = [
   '50000',
@@ -11,29 +11,29 @@ const priceOptions = [
 
 const PriceSelect = ({ dropDownDataForFilter, setDropDownDataForFilter }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-  const [minInputValue, setMinInputValue] = useState('')
-  const [maxInputValue, setMaxInputValue] = useState('')
-  const [minTemporaryValue, setMinTemporaryValue] = useState('')
-  const [maxTemporaryValue, setMaxTemporaryValue] = useState('')
+  const [minTemporaryValue, setMinTemporaryValue] = useState(
+    dropDownDataForFilter.priceRange.min || '')
+  const [maxTemporaryValue, setMaxTemporaryValue] = useState(
+    dropDownDataForFilter.priceRange.max || '')
   const inputRef = useRef(null)
 
   const { priceRange: { min, max } } = dropDownDataForFilter
 
-  const handleInputChange1 = (e) => {
+  const handleMinInputChange = (e) => {
     setMinTemporaryValue(e.target.value)
     setIsDropdownOpen(true)
   }
 
-  const handleInputChange2 = (e) => {
+  const handleMaxInputChange = (e) => {
     setMaxTemporaryValue(e.target.value)
     setIsDropdownOpen(true)
   }
 
-  const handleOptionClick1 = (option) => {
+  const handleMinOptionClick = (option) => {
     setMinTemporaryValue(option)
   }
 
-  const handleOptionClick2 = (option) => {
+  const handleMaxOptionClick = (option) => {
     setMaxTemporaryValue(option)
   }
 
@@ -46,20 +46,14 @@ const PriceSelect = ({ dropDownDataForFilter, setDropDownDataForFilter }) => {
       }
     }))
 
-    if (minTemporaryValue) {
-      setMinInputValue(minTemporaryValue)
-    }
-    if (maxTemporaryValue) {
-      setMaxInputValue(maxTemporaryValue)
-    }
     setIsDropdownOpen(false)
   }
 
   const handleClickOutside = (e) => {
     if (inputRef.current && !inputRef.current.contains(e.target)) {
       setIsDropdownOpen(false)
-      setMinTemporaryValue(minInputValue)
-      setMaxTemporaryValue(maxInputValue)
+      setMinTemporaryValue(min)
+      setMaxTemporaryValue(max)
     }
   }
 
@@ -68,14 +62,14 @@ const PriceSelect = ({ dropDownDataForFilter, setDropDownDataForFilter }) => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [minInputValue, maxInputValue])
+  }, [min, max])
 
   const isOptionMatching = (option, temporaryValue) =>
     option.toLowerCase() === temporaryValue.toLowerCase()
 
   return (
-    <div className={styles.customSelectContainer} ref={inputRef}>
-      <div className={styles.selectedValue}
+    <div className={classes.customSelectContainer} ref={inputRef}>
+      <div className={classes.selectedValue}
            onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
         {min || max
           ? `${min || 'Select'} / ${max || 'Select'}`
@@ -83,27 +77,27 @@ const PriceSelect = ({ dropDownDataForFilter, setDropDownDataForFilter }) => {
       </div>
 
       {isDropdownOpen && (
-        <div className={styles.mergedDropdownMenu}>
-          <div className={styles.columnsContainer}>
+        <div className={classes.mergedDropdownMenu}>
+          <div className={classes.columnsContainer}>
 
-            <div className={styles.column}>
-              <div className={styles.inputButtonContainer}>
+            <div className={classes.column}>
+              <div className={classes.inputButtonContainer}>
                 <input
                   type="text"
-                  className={styles.dropdownInput}
+                  className={classes.dropdownInput}
                   placeholder="დან"
                   value={minTemporaryValue}
-                  onChange={handleInputChange1}
+                  onChange={handleMinInputChange}
                 />
               </div>
-              <div className={styles.dropdownOptions}>
+              <div className={classes.dropdownOptions}>
                 <p>მინ. ფასი</p>
                 {priceOptions.map((option, index) => (
                   <div
                     key={index}
-                    className={`${styles.dropdownOption} ${isOptionMatching(
-                      option, minTemporaryValue) ? styles.highlighted : ''}`}
-                    onClick={() => handleOptionClick1(option)}
+                    className={`${classes.dropdownOption} ${isOptionMatching(
+                      option, minTemporaryValue) ? classes.highlighted : ''}`}
+                    onClick={() => handleMinOptionClick(option)}
                   >
                     {option}
                   </div>
@@ -111,24 +105,24 @@ const PriceSelect = ({ dropDownDataForFilter, setDropDownDataForFilter }) => {
               </div>
             </div>
 
-            <div className={styles.column}>
-              <div className={styles.inputButtonContainer}>
+            <div className={classes.column}>
+              <div className={classes.inputButtonContainer}>
                 <input
                   type="text"
-                  className={styles.dropdownInput}
+                  className={classes.dropdownInput}
                   placeholder="მდე"
                   value={maxTemporaryValue}
-                  onChange={handleInputChange2}
+                  onChange={handleMaxInputChange}
                 />
               </div>
-              <div className={styles.dropdownOptions}>
+              <div className={classes.dropdownOptions}>
                 <p>მაქს. ფასი</p>
                 {priceOptions.map((option, index) => (
                   <div
                     key={index}
-                    className={`${styles.dropdownOption} ${isOptionMatching(
-                      option, maxTemporaryValue) ? styles.highlighted : ''}`}
-                    onClick={() => handleOptionClick2(option)}
+                    className={`${classes.dropdownOption} ${isOptionMatching(
+                      option, maxTemporaryValue) ? classes.highlighted : ''}`}
+                    onClick={() => handleMaxOptionClick(option)}
                   >
                     {option}
                   </div>
@@ -137,8 +131,8 @@ const PriceSelect = ({ dropDownDataForFilter, setDropDownDataForFilter }) => {
             </div>
           </div>
 
-          <div className={styles.submitContainer}>
-            <button className={styles.submitButton} onClick={submitCustomText}>
+          <div className={classes.submitContainer}>
+            <button className={classes.submitButton} onClick={submitCustomText}>
               არჩევა
             </button>
           </div>
