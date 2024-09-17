@@ -15,7 +15,7 @@ const HomeHeader = ({}) => {
   const [dropDownDataForFilter, setDropDownDataForFilter] = useState(() => {
     const savedData = localStorage.getItem('dropDownDataForFilter')
     return savedData ? JSON.parse(savedData) : {
-      region: [],
+      regions: [],
       priceRange: { min: 0, max: null },
       area: [],
       nOfBedrooms: undefined
@@ -24,7 +24,7 @@ const HomeHeader = ({}) => {
   const realEstateDataFiltered = useSelector(
     state => selectRealEstateFilterData(state, dropDownDataForFilter))
 
-  const { priceRange } = dropDownDataForFilter
+  const {regions, priceRange } = dropDownDataForFilter
 
   useEffect(() => {
     localStorage.setItem('dropDownDataForFilter',
@@ -35,7 +35,8 @@ const HomeHeader = ({}) => {
     <header className={classes.header}>
       <div>
         <div className={classes['header-selects']}>
-          <RegionSelect/>
+          <RegionSelect dropDownDataForFilter={dropDownDataForFilter}
+                        setDropDownDataForFilter={setDropDownDataForFilter}/>
           <PriceSelect dropDownDataForFilter={dropDownDataForFilter}
                        setDropDownDataForFilter={setDropDownDataForFilter}/>
           <AreaSelect/>
@@ -52,9 +53,18 @@ const HomeHeader = ({}) => {
         </div>
       </div>
 
+      {regions?.map(region => <div key={region.id} style={{ background: 'lightgray', width: 'fit-content' }}>
+        <p>{`${region.name}`}</p>
+        <button onClick={() => setDropDownDataForFilter(prevState => ({
+          ...prevState,
+          regions: regions.filter(reg => reg.id !== region.id)
+        }))}>წაშლა
+        </button>
+      </div>)}
+
       {(priceRange.min || priceRange.max) &&
         <div style={{ background: 'lightgray', width: 'fit-content' }}>
-          <p>{`${priceRange.min} - ${priceRange.max}`} გელა</p>
+          <p>{`${priceRange.min} - ${priceRange.max}`}</p>
           <button onClick={() => setDropDownDataForFilter(prevState => ({
             ...prevState,
             priceRange: { min: 0, max: null }

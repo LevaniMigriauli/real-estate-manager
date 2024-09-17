@@ -6,13 +6,7 @@ export const regionSlice = createSlice({
   name: 'regions',
   initialState,
   reducers: {
-    setRegions: (state, action) => {
-      return action.payload.map(region => ({
-        id: region.id,
-        value: region.name,
-        label: region.name
-      }))
-    }
+    setRegions: (state, action) => action.payload
   }
 })
 

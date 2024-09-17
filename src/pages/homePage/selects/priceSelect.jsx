@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import classes from './priceSelect.module.scss'
+import styles from "./customDropDown.module.scss"
 
 const priceOptions = [
   '50000',
@@ -52,10 +53,15 @@ const PriceSelect = ({ dropDownDataForFilter, setDropDownDataForFilter }) => {
   const handleClickOutside = (e) => {
     if (inputRef.current && !inputRef.current.contains(e.target)) {
       setIsDropdownOpen(false)
-      setMinTemporaryValue(min)
-      setMaxTemporaryValue(max)
+      setMinTemporaryValue(min !== null ? String(min) : '')
+      setMaxTemporaryValue(max !== null ? String(max) : '')
     }
   }
+
+  useEffect(() => {
+    setMinTemporaryValue(min)
+    setMaxTemporaryValue(max)
+  }, [min, max])
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside)
@@ -65,7 +71,7 @@ const PriceSelect = ({ dropDownDataForFilter, setDropDownDataForFilter }) => {
   }, [min, max])
 
   const isOptionMatching = (option, temporaryValue) =>
-    option.toLowerCase() === temporaryValue.toLowerCase()
+    option === String(temporaryValue)
 
   return (
     <div className={classes.customSelectContainer} ref={inputRef}>
@@ -132,7 +138,7 @@ const PriceSelect = ({ dropDownDataForFilter, setDropDownDataForFilter }) => {
           </div>
 
           <div className={classes.submitContainer}>
-            <button className={classes.submitButton} onClick={submitCustomText}>
+            <button className={styles.submitButton} onClick={submitCustomText}>
               არჩევა
             </button>
           </div>

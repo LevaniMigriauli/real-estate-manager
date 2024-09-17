@@ -1,41 +1,22 @@
-.customSelectContainer {
-  width: 520px;
-  position: relative;
-}
-
-.selectedValue {
-  padding: 10px;
-  border: 1px solid #ccc;
-  cursor: pointer;
-  display: inline-block;
-  width: 100%;
-}
-
-.mergedDropdownMenu {
-  position: absolute;
-  width: 100%;
-  background-color: white;
-  border: 1px solid #ccc;
-  margin-top: 5px;
-  z-index: 1;
-}
-
 .columnsContainer {
   display: flex;
   justify-content: space-between;
 }
 
 .column {
-  width: 45%; /* Less width to fit both columns */
+  width: 45%;
 }
 
 .inputButtonContainer {
   display: flex;
+  margin-bottom: 10px;
 }
 
 .dropdownInput {
   width: 100%;
   padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
   box-sizing: border-box;
 }
 
@@ -45,24 +26,21 @@
 }
 
 .dropdownOption {
-  padding: 8px;
+  padding: 10px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.dropdownOption:hover, .highlighted {
+.dropdownOption:hover {
   background-color: #f1f1f1;
+}
+
+.highlighted {
+  background-color: #007bff;
+  color: white;
 }
 
 .submitContainer {
   padding: 10px;
   text-align: right;
-}
-
-.submitButton {
-  padding: 8px;
-  cursor: pointer;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  box-sizing: border-box;
 }
