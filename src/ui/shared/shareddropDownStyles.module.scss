@@ -1,0 +1,43 @@
+.customSelectContainer {
+  position: relative;
+  width: 100%;
+
+  .selectedValue {
+    color: var(--color-rich-black);
+    white-space: nowrap;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    width: fit-content;
+    box-sizing: border-box;
+    display: flex;
+    gap: 4px;
+    align-items: center;
+
+    span{
+      width: 14px;
+      height: 14px;
+      svg{
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+
+  .mergedDropdownMenu {
+    font-size: 14px;
+    position: absolute;
+    top: 52px;
+    left: 0;
+    background-color: white;
+    border: 1px solid var(--color-light-gray);
+    z-index: 1;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 24px;
+  }
+
+  .mergedDropdownMenu.regions {
+    left: -7px;
+  }
+}

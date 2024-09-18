@@ -42,7 +42,7 @@ const HomeHeader = ({}) => {
   const realEstateDataFiltered = useSelector(
     state => selectRealEstateFilterData(state, dropDownDataForFilter))
 
-  const {area ,regions, priceRange } = dropDownDataForFilter
+  const { area, regions, priceRange } = dropDownDataForFilter
 
   useEffect(() => {
     localStorage.setItem('dropDownDataForFilter',
@@ -51,79 +51,80 @@ const HomeHeader = ({}) => {
 
   return (
     <header className={classes.header}>
+      <div className={classes['top-header']}>
+          <div className={classes.dropdowns}>
+            <RegionSelect dropDownDataForFilter={dropDownDataForFilter}
+                          setDropDownDataForFilter={setDropDownDataForFilter}/>
+
+            <CustomPriceAndAreaDropDown
+              dropDownDataForFilter={dropDownDataForFilter}
+              setDropDownDataForFilter={setDropDownDataForFilter}
+              label="საფასო კატეგორია"
+              optionsKey="priceRange"
+              options={priceOptions}
+            />
+
+            <CustomPriceAndAreaDropDown
+              dropDownDataForFilter={dropDownDataForFilter}
+              setDropDownDataForFilter={setDropDownDataForFilter}
+              label="ფართობი"
+              optionsKey="area"
+              options={areaOptions}
+            />
+          </div>
+          <div className={classes['header-btns']}>
+            <button>
+              <Link to={'/addListing'}>
+                ლისტინგის დამატება
+              </Link>
+            </button>
+            <button onClick={() => addAgentModalRef.current?.handleOpenModal()}>
+              აგენტის დამატება
+            </button>
+          </div>
+        </div>
+
       <div>
-        <div className={classes['header-selects']}>
-          <RegionSelect dropDownDataForFilter={dropDownDataForFilter}
-                        setDropDownDataForFilter={setDropDownDataForFilter}/>
-
-          <CustomPriceAndAreaDropDown
-            dropDownDataForFilter={dropDownDataForFilter}
-            setDropDownDataForFilter={setDropDownDataForFilter}
-            label="ფასი"
-            optionsKey="priceRange"
-            options={priceOptions}
-          />
-
-          <CustomPriceAndAreaDropDown
-            dropDownDataForFilter={dropDownDataForFilter}
-            setDropDownDataForFilter={setDropDownDataForFilter}
-            label="ფართობი"
-            optionsKey="area"
-            options={areaOptions}
-          />
-
-        </div>
-        <div className={classes['header-btns']}>
-          <button>
-            <Link to={'/addListing'}>
-              ლისტინგის დამატება
-            </Link>
-          </button>
-          <button onClick={() => addAgentModalRef.current?.handleOpenModal()}>
-            აგენტის დამატება
-          </button>
-        </div>
-      </div>
-
-      {regions?.map(region => <div key={region.id} style={{
-        background: 'lightgray',
-        width: 'fit-content'
-      }}>
-        <p>{`${region.name}`}</p>
-        <button onClick={() => setDropDownDataForFilter(prevState => ({
-          ...prevState,
-          regions: regions.filter(reg => reg.id !== region.id)
-        }))}>წაშლა
-        </button>
-      </div>)}
-
-      {(priceRange.min || priceRange.max) &&
-        <div style={{ background: 'lightgray', width: 'fit-content' }}>
-          <p>{`${priceRange.min} - ${priceRange.max}`}</p>
+        {regions?.map(region => <div key={region.id} style={{
+          background: 'lightgray',
+          width: 'fit-content'
+        }}>
+          <p>{`${region.name}`}</p>
           <button onClick={() => setDropDownDataForFilter(prevState => ({
             ...prevState,
-            priceRange: { min: '', max: '' }
+            regions: regions.filter(reg => reg.id !== region.id)
           }))}>წაშლა
           </button>
-        </div>
-      }
+        </div>)}
 
-      {(area.min || area.max) &&
+        {(priceRange.min || priceRange.max) &&
+          <div style={{ background: 'lightgray', width: 'fit-content' }}>
+            <p>{`${priceRange.min} - ${priceRange.max}`}</p>
+            <button onClick={() => setDropDownDataForFilter(prevState => ({
+              ...prevState,
+              priceRange: { min: '', max: '' }
+            }))}>წაშლა
+            </button>
+          </div>
+        }
+
+        {(area.min || area.max) &&
+          <div style={{ background: 'lightgray', width: 'fit-content' }}>
+            <p>{`${area.min} - ${area.max}`}</p>
+            <button onClick={() => setDropDownDataForFilter(prevState => ({
+              ...prevState,
+              area: { min: '', max: '' }
+            }))}>წაშლა
+            </button>
+          </div>
+        }
+
         <div style={{ background: 'lightgray', width: 'fit-content' }}>
-          <p>{`${area.min} - ${area.max}`}</p>
-          <button onClick={() => setDropDownDataForFilter(prevState => ({
-            ...prevState,
-            area: { min: '', max: '' }
-          }))}>წაშლა
+          <p></p>
+          <button onClick={() => setDropDownDataForFilter(
+            initialDropDownData)}>გასუფთავება
           </button>
         </div>
-      }
-
-      <div style={{ background: 'lightgray', width: 'fit-content' }}>
-        <p></p>
-        <button onClick={() => setDropDownDataForFilter(
-          initialDropDownData)}>გასუფთავება
-        </button>
       </div>
 
       <AddAgentModal ref={addAgentModalRef}/>

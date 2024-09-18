@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import classes from './regionSelect.module.scss'
+import styles from '../../../ui/shared/shareddropDownStyles.module.scss'
+import ChevronDown from '../../../assets/svgIcons/chevron-down.jsx'
 
 const RegionSelect = ({ dropDownDataForFilter, setDropDownDataForFilter }) => {
   const regionOptionsList = useSelector(state => state.regions)
@@ -48,16 +50,18 @@ const RegionSelect = ({ dropDownDataForFilter, setDropDownDataForFilter }) => {
   }, [selectedRegions])
 
   return (
-    <div className={classes.customSelectContainer} ref={inputRef}>
-      <div className={classes.selectedValue}
+    <div className={styles.customSelectContainer} ref={inputRef}>
+      <div className={styles.selectedValue} style={{backgroundColor: `${isDropdownOpen ? '#F3F3F3' : ''}`}}
            onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
-        {selectedRegions?.length
-          ? `${selectedRegions?.length} Region(s) Selected`
-          : 'Select Region'}
+        <p>რეგიონი</p>
+        {isDropdownOpen
+          ? (<span
+            style={{ transform: 'rotate(180deg)' }}>{ChevronDown()}</span>)
+          : (<span>{ChevronDown()}</span>)}
       </div>
 
       {isDropdownOpen && (
-        <div className={classes.dropDownMenu}>
+        <div className={`${styles.mergedDropdownMenu} ${styles.regions}`}>
           <ul className={classes.dropDownMenuList}>
             {regionOptionsList.map(region => {
               const isChecked = temporaryChecked.some(

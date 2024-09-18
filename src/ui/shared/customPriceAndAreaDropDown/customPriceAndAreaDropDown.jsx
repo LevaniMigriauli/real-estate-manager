@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import classes from "./customPriceAndAreaDropDown.module.scss"
+import styles from "../shareddropDownStyles.module.scss"
+import ChevronDown from '../../../assets/svgIcons/chevron-down.jsx'
 
 const CustomPriceAndAreaDropDown = ({
   dropDownDataForFilter,
@@ -72,20 +74,22 @@ const CustomPriceAndAreaDropDown = ({
     option === String(temporaryValue)
 
   return (
-    <div className={classes.customSelectContainer} ref={inputRef}>
-      <div className={classes.selectedValue}
+    <div className={styles.customSelectContainer} ref={inputRef}>
+      <div className={`${styles.selectedValue}`} style={{backgroundColor: `${isDropdownOpen ? '#F3F3F3' : ''}`}}
            onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
-        {min || max
-          ? `${min || 'Select'} / ${max || 'Select'}`
-          : label}
+        <p>{label}</p>
+        {isDropdownOpen
+          ? (<span
+            style={{ transform: 'rotate(180deg)' }}>{ChevronDown()}</span>)
+          : (<span>{ChevronDown()}</span>)}
       </div>
 
       {isDropdownOpen && (
-        <div className={classes.mergedDropdownMenu}>
+        <div className={styles.mergedDropdownMenu}>
           <div className={classes.columnsContainer}>
             <div className={classes.column}>
               <div className={classes.inputButtonContainer}>
-                <input
+                <inputw
                   type="text"
                   className={classes.dropdownInput}
                   placeholder="დან"
