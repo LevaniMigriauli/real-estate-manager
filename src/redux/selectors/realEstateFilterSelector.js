@@ -7,7 +7,7 @@ export const selectRealEstateFilterData = createSelector(
     selectRealEstateData,
     (state, dropDownDataForFilter) => dropDownDataForFilter],
   (realEstateData, dropDownDataForFilter) => {
-    const { regions, priceRange: { min, max } } = dropDownDataForFilter
+    const { regions, priceRange, area } = dropDownDataForFilter
 
     const selectedRegionIds = regions.length > 0 ? regions.map(
       region => region.id) : null
@@ -17,10 +17,15 @@ export const selectRealEstateFilterData = createSelector(
       const regionsMatch = selectedRegionIds ? selectedRegionIds.includes(
         property.city.region_id) : true
 
-      const priceMatch = (min === '' || property.price >= Number(min)) &&
-        (max === '' || property.price <= Number(max))
+      const priceMatch = (priceRange.min === '' || property.price >=
+          Number(priceRange.min)) &&
+        (priceRange.max === '' || property.price <= Number(priceRange.max))
 
-      return priceMatch && regionsMatch
+      const areaMatch = (area.min === '' || property.area >=
+          Number(area.min)) &&
+        (area.max === '' || property.price <= Number(area.max))
+
+      return priceMatch && regionsMatch && areaMatch
     })
   }
 )

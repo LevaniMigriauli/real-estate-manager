@@ -10,13 +10,6 @@ import {
 import CustomPriceAndAreaDropDown
   from '../../ui/shared/customPriceAndAreaDropDown/customPriceAndAreaDropDown.jsx'
 
-const initialDropDownData = {
-  regions: [],
-  priceRange: { min: '', max: '' },
-  area: { min: '', max: '' },
-  nOfBedrooms: undefined
-}
-
 const priceOptions = [
   '50000',
   '100000',
@@ -33,6 +26,13 @@ const areaOptions = [
   '300'
 ]
 
+const initialDropDownData = {
+  regions: [],
+  priceRange: { min: '', max: '' },
+  area: { min: '', max: '' },
+  nOfBedrooms: undefined
+}
+
 const HomeHeader = ({}) => {
   const addAgentModalRef = useRef(null)
   const [dropDownDataForFilter, setDropDownDataForFilter] = useState(() => {
@@ -42,7 +42,7 @@ const HomeHeader = ({}) => {
   const realEstateDataFiltered = useSelector(
     state => selectRealEstateFilterData(state, dropDownDataForFilter))
 
-  const { regions, priceRange } = dropDownDataForFilter
+  const {area ,regions, priceRange } = dropDownDataForFilter
 
   useEffect(() => {
     localStorage.setItem('dropDownDataForFilter',
@@ -102,7 +102,18 @@ const HomeHeader = ({}) => {
           <p>{`${priceRange.min} - ${priceRange.max}`}</p>
           <button onClick={() => setDropDownDataForFilter(prevState => ({
             ...prevState,
-            priceRange: { min: 0, max: null }
+            priceRange: { min: '', max: '' }
+          }))}>წაშლა
+          </button>
+        </div>
+      }
+
+      {(area.min || area.max) &&
+        <div style={{ background: 'lightgray', width: 'fit-content' }}>
+          <p>{`${area.min} - ${area.max}`}</p>
+          <button onClick={() => setDropDownDataForFilter(prevState => ({
+            ...prevState,
+            area: { min: '', max: '' }
           }))}>წაშლა
           </button>
         </div>
