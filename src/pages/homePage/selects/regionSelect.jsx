@@ -72,7 +72,7 @@ const RegionSelect = ({ dropDownDataForFilter, setDropDownDataForFilter }) => {
                   <input
                     type="checkbox"
                     checked={isChecked}
-                    onChange={() => handleOptionChange(region)}
+                    readOnly
                   />
                   {region.name}
                 </li>
