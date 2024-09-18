@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import classes from './regionSelect.module.scss'
-import styles from './customDropDown.module.scss'
 
 const RegionSelect = ({ dropDownDataForFilter, setDropDownDataForFilter }) => {
   const regionOptionsList = useSelector(state => state.regions)
@@ -58,7 +57,7 @@ const RegionSelect = ({ dropDownDataForFilter, setDropDownDataForFilter }) => {
       </div>
 
       {isDropdownOpen && (
-        <div className={styles.dropDownMenu}>
+        <div className={classes.dropDownMenu}>
           <ul className={classes.dropDownMenuList}>
             {regionOptionsList.map(region => {
               const isChecked = temporaryChecked.some(
@@ -81,7 +80,7 @@ const RegionSelect = ({ dropDownDataForFilter, setDropDownDataForFilter }) => {
           </ul>
 
           <div className={classes.submitContainer}>
-            <button className={styles.submitButton} onClick={submitRegions}>
+            <button className={classes.submitButton} onClick={submitRegions}>
               არჩევა
             </button>
           </div>

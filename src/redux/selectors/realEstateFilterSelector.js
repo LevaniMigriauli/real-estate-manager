@@ -17,8 +17,8 @@ export const selectRealEstateFilterData = createSelector(
       const regionsMatch = selectedRegionIds ? selectedRegionIds.includes(
         property.city.region_id) : true
 
-      const priceMatch = property.price >= min &&
-        (max === null || property.price <= max)
+      const priceMatch = (min === '' || property.price >= Number(min)) &&
+        (max === '' || property.price <= Number(max))
 
       return priceMatch && regionsMatch
     })

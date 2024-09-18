@@ -1,35 +1,32 @@
 import { useState, useRef, useEffect } from 'react'
-import classes from './priceSelect.module.scss'
-import styles from './customDropDown.module.scss'
+import classes from "./customPriceAndAreaDropDown.module.scss"
 
-const priceOptions = [
-  '50000',
-  '100000',
-  '150000',
-  '200000',
-  '300000'
-]
-
-const PriceSelect = ({ dropDownDataForFilter, setDropDownDataForFilter }) => {
+const CustomPriceAndAreaDropDown = ({
+  dropDownDataForFilter,
+  setDropDownDataForFilter,
+  label,
+  optionsKey,
+  options
+}) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [minTemporaryValue, setMinTemporaryValue] = useState(
-    dropDownDataForFilter.priceRange.min || '')
+    dropDownDataForFilter[optionsKey].min || ''
+  )
   const [maxTemporaryValue, setMaxTemporaryValue] = useState(
-    dropDownDataForFilter.priceRange.max || '')
+    dropDownDataForFilter[optionsKey].max || ''
+  )
   const inputRef = useRef(null)
 
-  const { priceRange: { min, max } } = dropDownDataForFilter
+  const { min, max } = dropDownDataForFilter[optionsKey]
 
   const handleMinInputChange = (e) => {
     const value = e.target.value
     if (/^\d*$/.test(value)) setMinTemporaryValue(value)
-    // setIsDropdownOpen(true)
   }
 
   const handleMaxInputChange = (e) => {
     const value = e.target.value
     if (/^\d*$/.test(value)) setMaxTemporaryValue(value)
-    // setIsDropdownOpen(true)
   }
 
   const handleMinOptionClick = (option) => {
@@ -43,12 +40,11 @@ const PriceSelect = ({ dropDownDataForFilter, setDropDownDataForFilter }) => {
   const submitCustomText = () => {
     setDropDownDataForFilter(prevState => ({
       ...prevState,
-      priceRange: {
+      [optionsKey]: {
         min: minTemporaryValue === '' ? '' : minTemporaryValue,
         max: maxTemporaryValue === '' ? '' : maxTemporaryValue
       }
     }))
-
     setIsDropdownOpen(false)
   }
 
@@ -81,13 +77,12 @@ const PriceSelect = ({ dropDownDataForFilter, setDropDownDataForFilter }) => {
            onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
         {min || max
           ? `${min || 'Select'} / ${max || 'Select'}`
-          : 'საფასო კატეგორია'}
+          : label}
       </div>
 
       {isDropdownOpen && (
         <div className={classes.mergedDropdownMenu}>
           <div className={classes.columnsContainer}>
-
             <div className={classes.column}>
               <div className={classes.inputButtonContainer}>
                 <input
@@ -99,8 +94,8 @@ const PriceSelect = ({ dropDownDataForFilter, setDropDownDataForFilter }) => {
                 />
               </div>
               <div className={classes.dropdownOptions}>
-                <p>მინ. ფასი</p>
-                {priceOptions.map((option, index) => (
+                <p>მინ. {label}</p>
+                {options.map((option, index) => (
                   <div
                     key={index}
                     className={`${classes.dropdownOption} ${isOptionMatching(
@@ -124,8 +119,8 @@ const PriceSelect = ({ dropDownDataForFilter, setDropDownDataForFilter }) => {
                 />
               </div>
               <div className={classes.dropdownOptions}>
-                <p>მაქს. ფასი</p>
-                {priceOptions.map((option, index) => (
+                <p>მაქს. {label}</p>
+                {options.map((option, index) => (
                   <div
                     key={index}
                     className={`${classes.dropdownOption} ${isOptionMatching(
@@ -140,7 +135,7 @@ const PriceSelect = ({ dropDownDataForFilter, setDropDownDataForFilter }) => {
           </div>
 
           <div className={classes.submitContainer}>
-            <button className={styles.submitButton} onClick={submitCustomText}>
+            <button className={classes.submitButton} onClick={submitCustomText}>
               არჩევა
             </button>
           </div>
@@ -150,4 +145,4 @@ const PriceSelect = ({ dropDownDataForFilter, setDropDownDataForFilter }) => {
   )
 }
 
-export default PriceSelect
+export default CustomPriceAndAreaDropDown

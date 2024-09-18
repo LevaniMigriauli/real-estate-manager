@@ -1,21 +1,37 @@
 import { useEffect, useRef, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import classes from './homeHeader.module.scss'
 import RegionSelect from './selects/regionSelect.jsx'
 import AddAgentModal from './addAgentModal.jsx'
-import AreaSelect from './selects/areaSelect.jsx'
-import PriceSelect from './selects/priceSelect.jsx'
-import { useSelector } from 'react-redux'
 import {
   selectRealEstateFilterData
 } from '../../redux/selectors/realEstateFilterSelector.js'
+import CustomPriceAndAreaDropDown
+  from '../../ui/shared/customPriceAndAreaDropDown/customPriceAndAreaDropDown.jsx'
 
 const initialDropDownData = {
   regions: [],
   priceRange: { min: '', max: '' },
-  area: [],
+  area: { min: '', max: '' },
   nOfBedrooms: undefined
 }
+
+const priceOptions = [
+  '50000',
+  '100000',
+  '150000',
+  '200000',
+  '300000'
+]
+
+const areaOptions = [
+  '50',
+  '100',
+  '150',
+  '200',
+  '300'
+]
 
 const HomeHeader = ({}) => {
   const addAgentModalRef = useRef(null)
@@ -39,9 +55,23 @@ const HomeHeader = ({}) => {
         <div className={classes['header-selects']}>
           <RegionSelect dropDownDataForFilter={dropDownDataForFilter}
                         setDropDownDataForFilter={setDropDownDataForFilter}/>
-          <PriceSelect dropDownDataForFilter={dropDownDataForFilter}
-                       setDropDownDataForFilter={setDropDownDataForFilter}/>
-          <AreaSelect/>
+
+          <CustomPriceAndAreaDropDown
+            dropDownDataForFilter={dropDownDataForFilter}
+            setDropDownDataForFilter={setDropDownDataForFilter}
+            label="ფასი"
+            optionsKey="priceRange"
+            options={priceOptions}
+          />
+
+          <CustomPriceAndAreaDropDown
+            dropDownDataForFilter={dropDownDataForFilter}
+            setDropDownDataForFilter={setDropDownDataForFilter}
+            label="ფართობი"
+            optionsKey="area"
+            options={areaOptions}
+          />
+
         </div>
         <div className={classes['header-btns']}>
           <button>

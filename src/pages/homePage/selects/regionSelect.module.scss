@@ -1,3 +1,26 @@
+.customSelectContainer {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.selectedValue {
+  padding: 10px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  background-color: white;
+  width: 100%;
+}
+
+.dropdownMenu {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  width: 100%;
+  z-index: 1;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
 .dropDownMenuList {
   list-style-type: none;
   padding: 0;
@@ -47,4 +70,13 @@ input[type="checkbox"]:checked::before {
 .submitContainer {
   padding: 10px;
   text-align: right;
+}
+
+.submitButton {
+  padding: 8px 16px;
+  background-color: var(--color-flame-red);
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
 }
