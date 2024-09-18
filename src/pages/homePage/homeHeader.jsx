@@ -10,21 +10,23 @@ import {
   selectRealEstateFilterData
 } from '../../redux/selectors/realEstateFilterSelector.js'
 
+const initialDropDownData = {
+  regions: [],
+  priceRange: { min: '', max: '' },
+  area: [],
+  nOfBedrooms: undefined
+}
+
 const HomeHeader = ({}) => {
   const addAgentModalRef = useRef(null)
   const [dropDownDataForFilter, setDropDownDataForFilter] = useState(() => {
     const savedData = localStorage.getItem('dropDownDataForFilter')
-    return savedData ? JSON.parse(savedData) : {
-      regions: [],
-      priceRange: { min: 0, max: null },
-      area: [],
-      nOfBedrooms: undefined
-    }
+    return savedData ? JSON.parse(savedData) : initialDropDownData
   })
   const realEstateDataFiltered = useSelector(
     state => selectRealEstateFilterData(state, dropDownDataForFilter))
 
-  const {regions, priceRange } = dropDownDataForFilter
+  const { regions, priceRange } = dropDownDataForFilter
 
   useEffect(() => {
     localStorage.setItem('dropDownDataForFilter',
@@ -53,7 +55,10 @@ const HomeHeader = ({}) => {
         </div>
       </div>
 
-      {regions?.map(region => <div key={region.id} style={{ background: 'lightgray', width: 'fit-content' }}>
+      {regions?.map(region => <div key={region.id} style={{
+        background: 'lightgray',
+        width: 'fit-content'
+      }}>
         <p>{`${region.name}`}</p>
         <button onClick={() => setDropDownDataForFilter(prevState => ({
           ...prevState,
@@ -72,6 +77,13 @@ const HomeHeader = ({}) => {
           </button>
         </div>
       }
+
+      <div style={{ background: 'lightgray', width: 'fit-content' }}>
+        <p></p>
+        <button onClick={() => setDropDownDataForFilter(
+          initialDropDownData)}>გასუფთავება
+        </button>
+      </div>
 
       <AddAgentModal ref={addAgentModalRef}/>
     </header>

@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import classes from './priceSelect.module.scss'
-import styles from "./customDropDown.module.scss"
+import styles from './customDropDown.module.scss'
 
 const priceOptions = [
   '50000',
@@ -21,13 +21,15 @@ const PriceSelect = ({ dropDownDataForFilter, setDropDownDataForFilter }) => {
   const { priceRange: { min, max } } = dropDownDataForFilter
 
   const handleMinInputChange = (e) => {
-    setMinTemporaryValue(e.target.value)
-    setIsDropdownOpen(true)
+    const value = e.target.value
+    if (/^\d*$/.test(value)) setMinTemporaryValue(value)
+    // setIsDropdownOpen(true)
   }
 
   const handleMaxInputChange = (e) => {
-    setMaxTemporaryValue(e.target.value)
-    setIsDropdownOpen(true)
+    const value = e.target.value
+    if (/^\d*$/.test(value)) setMaxTemporaryValue(value)
+    // setIsDropdownOpen(true)
   }
 
   const handleMinOptionClick = (option) => {
@@ -42,8 +44,8 @@ const PriceSelect = ({ dropDownDataForFilter, setDropDownDataForFilter }) => {
     setDropDownDataForFilter(prevState => ({
       ...prevState,
       priceRange: {
-        min: minTemporaryValue || prevState.priceRange.min,
-        max: maxTemporaryValue || prevState.priceRange.max
+        min: minTemporaryValue === '' ? '' : minTemporaryValue,
+        max: maxTemporaryValue === '' ? '' : maxTemporaryValue
       }
     }))
 
@@ -59,8 +61,8 @@ const PriceSelect = ({ dropDownDataForFilter, setDropDownDataForFilter }) => {
   }
 
   useEffect(() => {
-    setMinTemporaryValue(min)
-    setMaxTemporaryValue(max)
+    setMinTemporaryValue(String(min))
+    setMaxTemporaryValue(String(max))
   }, [min, max])
 
   useEffect(() => {
