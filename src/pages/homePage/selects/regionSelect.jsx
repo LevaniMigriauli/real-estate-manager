@@ -62,6 +62,7 @@ const RegionSelect = ({ dropDownDataForFilter, setDropDownDataForFilter }) => {
 
       {isDropdownOpen && (
         <div className={`${styles.mergedDropdownMenu} ${styles.regions}`}>
+          <p className={styles.title}>რეგიონის მიხედვით</p>
           <ul className={classes.dropDownMenuList}>
             {regionOptionsList.map(region => {
               const isChecked = temporaryChecked.some(

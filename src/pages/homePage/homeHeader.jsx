@@ -9,6 +9,7 @@ import {
 } from '../../redux/selectors/realEstateFilterSelector.js'
 import CustomPriceAndAreaDropDown
   from '../../ui/shared/customPriceAndAreaDropDown/customPriceAndAreaDropDown.jsx'
+import BedroomsDropdown from './selects/bedroomsDropdown.jsx'
 
 const priceOptions = [
   '50000',
@@ -30,7 +31,7 @@ const initialDropDownData = {
   regions: [],
   priceRange: { min: '', max: '' },
   area: { min: '', max: '' },
-  nOfBedrooms: undefined
+  nOfBedrooms: ''
 }
 
 const HomeHeader = ({}) => {
@@ -42,7 +43,7 @@ const HomeHeader = ({}) => {
   const realEstateDataFiltered = useSelector(
     state => selectRealEstateFilterData(state, dropDownDataForFilter))
 
-  const { area, regions, priceRange } = dropDownDataForFilter
+  const { area, regions, priceRange, nOfBedrooms } = dropDownDataForFilter
 
   useEffect(() => {
     localStorage.setItem('dropDownDataForFilter',
@@ -52,37 +53,42 @@ const HomeHeader = ({}) => {
   return (
     <header className={classes.header}>
       <div className={classes['top-header']}>
-          <div className={classes.dropdowns}>
-            <RegionSelect dropDownDataForFilter={dropDownDataForFilter}
-                          setDropDownDataForFilter={setDropDownDataForFilter}/>
+        <div className={classes.dropdowns}>
+          <RegionSelect dropDownDataForFilter={dropDownDataForFilter}
+                        setDropDownDataForFilter={setDropDownDataForFilter}/>
 
-            <CustomPriceAndAreaDropDown
-              dropDownDataForFilter={dropDownDataForFilter}
-              setDropDownDataForFilter={setDropDownDataForFilter}
-              label="საფასო კატეგორია"
-              optionsKey="priceRange"
-              options={priceOptions}
-            />
+          <CustomPriceAndAreaDropDown
+            dropDownDataForFilter={dropDownDataForFilter}
+            setDropDownDataForFilter={setDropDownDataForFilter}
+            label="საფასო კატეგორია"
+            optionsKey="priceRange"
+            options={priceOptions}
+            menuTitle="ფასის მიხედვით"
+          />
 
-            <CustomPriceAndAreaDropDown
-              dropDownDataForFilter={dropDownDataForFilter}
-              setDropDownDataForFilter={setDropDownDataForFilter}
-              label="ფართობი"
-              optionsKey="area"
-              options={areaOptions}
-            />
-          </div>
-          <div className={classes['header-btns']}>
-            <button>
-              <Link to={'/addListing'}>
-                ლისტინგის დამატება
-              </Link>
-            </button>
-            <button onClick={() => addAgentModalRef.current?.handleOpenModal()}>
-              აგენტის დამატება
-            </button>
-          </div>
+          <CustomPriceAndAreaDropDown
+            dropDownDataForFilter={dropDownDataForFilter}
+            setDropDownDataForFilter={setDropDownDataForFilter}
+            label="ფართობი"
+            optionsKey="area"
+            options={areaOptions}
+            menuTitle="ფართობის მიხედვით"
+          />
+
+          <BedroomsDropdown dropDownDataForFilter={dropDownDataForFilter}
+                            setDropDownDataForFilter={setDropDownDataForFilter}/>
         </div>
+        <div className={classes['header-btns']}>
+          <button>
+            <Link to={'/addListing'}>
+              ლისტინგის დამატება
+            </Link>
+          </button>
+          <button onClick={() => addAgentModalRef.current?.handleOpenModal()}>
+            აგენტის დამატება
+          </button>
+        </div>
+      </div>
 
       <div>
         {regions?.map(region => <div key={region.id} style={{
@@ -114,6 +120,17 @@ const HomeHeader = ({}) => {
             <button onClick={() => setDropDownDataForFilter(prevState => ({
               ...prevState,
               area: { min: '', max: '' }
+            }))}>წაშლა
+            </button>
+          </div>
+        }
+
+        {nOfBedrooms &&
+          <div style={{ background: 'lightgray', width: 'fit-content' }}>
+            <p>{nOfBedrooms}</p>
+            <button onClick={() => setDropDownDataForFilter(prevState => ({
+              ...prevState,
+              nOfBedrooms: ''
             }))}>წაშლა
             </button>
           </div>

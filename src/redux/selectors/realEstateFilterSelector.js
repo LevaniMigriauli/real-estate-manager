@@ -11,12 +11,13 @@ const selectRealEstateData = state => state.realEstates
 export const selectRealEstateFilterData = createSelector(
   [selectRealEstateData, (state, dropDownDataForFilter) => dropDownDataForFilter],
   (realEstateData, dropDownDataForFilter) => {
-    const { regions, priceRange, area } = dropDownDataForFilter
+    const { regions, priceRange, area, nOfBedrooms } = dropDownDataForFilter
 
     const isAnyFilterApplied =
       regions.length > 0 ||
       priceRange.min !== '' || priceRange.max !== '' ||
-      area.min !== '' || area.max !== ''
+      area.min !== '' || area.max !== '' ||
+      nOfBedrooms !== ''
 
     if (!isAnyFilterApplied) {
       return realEstateData
@@ -46,10 +47,17 @@ export const selectRealEstateFilterData = createSelector(
       })
       : []
 
+    const isNOfBedroomsSet = nOfBedrooms !== ''
+    const filterByNOfBedrooms = isNOfBedroomsSet ?
+      realEstateData.filter(
+        property => property.bedrooms === Number(nOfBedrooms))
+      : []
+
     const combinedResults = [
       ...filteredByRegions,
       ...filteredByPrice,
-      ...filteredByArea]
+      ...filteredByArea,
+      ...filterByNOfBedrooms]
 
     return getUniqueProperties(combinedResults)
   }

@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
-import classes from "./customPriceAndAreaDropDown.module.scss"
-import styles from "../shareddropDownStyles.module.scss"
+import classes from './customPriceAndAreaDropDown.module.scss'
+import styles from '../shareddropDownStyles.module.scss'
 import ChevronDown from '../../../assets/svgIcons/chevron-down.jsx'
 
 const CustomPriceAndAreaDropDown = ({
@@ -8,7 +8,8 @@ const CustomPriceAndAreaDropDown = ({
   setDropDownDataForFilter,
   label,
   optionsKey,
-  options
+  options,
+  menuTitle
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [minTemporaryValue, setMinTemporaryValue] = useState(
@@ -23,12 +24,12 @@ const CustomPriceAndAreaDropDown = ({
 
   const handleMinInputChange = (e) => {
     const value = e.target.value
-    if (/^\d*$/.test(value)) setMinTemporaryValue(value)
+    if (/^\d*\.?\d*$/.test(value)) setMinTemporaryValue(value)
   }
 
   const handleMaxInputChange = (e) => {
     const value = e.target.value
-    if (/^\d*$/.test(value)) setMaxTemporaryValue(value)
+    if (/^\d*\.?\d*$/.test(value)) setMaxTemporaryValue(value)
   }
 
   const handleMinOptionClick = (option) => {
@@ -75,7 +76,8 @@ const CustomPriceAndAreaDropDown = ({
 
   return (
     <div className={styles.customSelectContainer} ref={inputRef}>
-      <div className={`${styles.selectedValue}`} style={{backgroundColor: `${isDropdownOpen ? '#F3F3F3' : ''}`}}
+      <div className={`${styles.selectedValue}`}
+           style={{ backgroundColor: `${isDropdownOpen ? '#F3F3F3' : ''}` }}
            onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
         <p>{label}</p>
         {isDropdownOpen
@@ -86,12 +88,13 @@ const CustomPriceAndAreaDropDown = ({
 
       {isDropdownOpen && (
         <div className={styles.mergedDropdownMenu}>
+          <p className={styles.title}>{menuTitle}</p>
           <div className={classes.columnsContainer}>
             <div className={classes.column}>
               <div className={classes.inputButtonContainer}>
-                <inputw
+                <input
                   type="text"
-                  className={classes.dropdownInput}
+                  className={styles.dropdownInput}
                   placeholder="დან"
                   value={minTemporaryValue}
                   onChange={handleMinInputChange}
@@ -116,7 +119,7 @@ const CustomPriceAndAreaDropDown = ({
               <div className={classes.inputButtonContainer}>
                 <input
                   type="text"
-                  className={classes.dropdownInput}
+                  className={styles.dropdownInput}
                   placeholder="მდე"
                   value={maxTemporaryValue}
                   onChange={handleMaxInputChange}
