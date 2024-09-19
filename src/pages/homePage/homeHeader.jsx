@@ -15,6 +15,9 @@ import {
   FilterSelectedRegions
 } from '../../ui/lib/filterSelectedItem.jsx'
 import { isAnyFilterApplied } from '../../utils/helpers.js'
+import BtnOrangeRed from '../../ui/lib/btnOrangeRed.jsx'
+import Icon from '../../ui/shared/svgIcons/Icon.jsx'
+import BtnWhite from '../../ui/lib/btnWhite.jsx'
 
 const priceOptions = [
   '50000',
@@ -86,14 +89,16 @@ const HomeHeader = ({}) => {
                             setDropDownDataForFilter={setDropDownDataForFilter}/>
         </div>
         <div className={classes['header-btns']}>
-          <button>
-            <Link to={'/addListing'}>
+          <Link to={'/addListing'} className={classes['btn-navigate-listing']}>
+            <BtnOrangeRed>
+              <Icon name={'plus'} viewBox={'0 0 17 16'}/>
               ლისტინგის დამატება
-            </Link>
-          </button>
-          <button onClick={() => addAgentModalRef.current?.handleOpenModal()}>
-            აგენტის დამატება
-          </button>
+            </BtnOrangeRed>
+          </Link>
+
+          <BtnWhite className={classes['btn-add-agent']} onClick={() => addAgentModalRef.current?.handleOpenModal()}>
+            <Icon name={'plus'} viewBox={'0 0 17 16'}/> აგენტის დამატება
+          </BtnWhite>
         </div>
       </div>
 

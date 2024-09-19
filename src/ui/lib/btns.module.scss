@@ -1,0 +1,30 @@
+.btn {
+  font-size: 16px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  line-height: 22px;
+
+  display: flex;
+  align-items: center;
+}
+
+.btn-orange-red {
+  color: white;
+  background: var(--color-flame-red);
+  border: none;
+
+  &:hover {
+    background: var(--color-dark-flame-red);
+  }
+}
+
+.btn-white {
+  color: var(--color-flame-red);
+  background: white;
+  border: 1px solid var(--color-flame-red);
+
+  &:hover {
+    color: white;
+    background: var(--color-flame-red);
+  }
+}

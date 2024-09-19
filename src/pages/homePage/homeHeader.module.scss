@@ -4,6 +4,7 @@
   .top-header {
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
 
     .dropdowns {
       border: 1px solid var(--color-light-gray);
@@ -13,14 +14,36 @@
       border-radius: 10px;
       margin-bottom: 16px;
     }
+
+    .header-btns {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+
+      .btn-navigate-listing {
+        text-decoration: none;
+
+        svg {
+          width: 22px;
+          height: 22px;
+          margin-right: 2px;
+        }
+      }
+
+      .btn-add-agent {
+        svg {
+          width: 22px;
+          height: 22px;
+          margin-right: 2px;
+        }
+      }
+    }
   }
 
   .bottom-header {
     font-size: 14px;
     display: flex;
     gap: 8px;
-
-
 
     .btn-empty-all {
       background: none;

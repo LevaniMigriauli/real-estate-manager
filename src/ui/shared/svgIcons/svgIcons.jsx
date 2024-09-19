@@ -41,6 +41,10 @@ const SvgIcons = () => {
         <path d="M3.5 4L10.5 11" stroke="#354451" strokeLinecap="round"
               strokeLinejoin="round"/>
       </symbol>
+      <symbol id={'plus'} width="1em" height="1em" viewBox="0 0 24 24">
+        <path fill="currentColor"
+              d="M18 12.998h-5v5a1 1 0 0 1-2 0v-5H6a1 1 0 0 1 0-2h5v-5a1 1 0 0 1 2 0v5h5a1 1 0 0 1 0 2"/>
+      </symbol>
     </svg>
   )
 }
