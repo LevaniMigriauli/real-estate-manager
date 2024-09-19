@@ -1,10 +1,40 @@
 .columns-container {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, 155px);
+  column-gap: 15px;
   justify-content: space-between;
+  margin-bottom: 32px;
 }
 
 .column {
-  width: 45%;
+  &:last-child {
+
+    .dropdownOptions {
+      margin-left: 9px;
+    }
+  }
+
+  .dropdownOptions {
+    p {
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+  }
+
+  .inputContainer {
+    position: relative;
+
+    .errorMessage {
+      font-size: 12px;
+      white-space: nowrap;
+      color: var(--color-red-error);
+
+      position: absolute;
+      top: 41px;
+      left: 0;
+    }
+  }
+
 }
 
 .selectedValue:hover {
@@ -16,40 +46,16 @@
   overflow-y: auto;
 }
 
-
 .dropdownOption {
-  padding: 10px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-}
-
-
-.dropdownOption:hover {
-  background-color: #f1f1f1;
-}
-
-.dropdown-option:hover, .highlighted {
-  background-color: #f1f1f1;
-}
-
-.inputButtonContainer {
-  display: flex;
-  margin-bottom: 10px;
-}
-
-.submitContainer {
-  padding: 10px;
-  text-align: right;
-}
-
-.submitButton {
-  background-color: var(--color-flame-red);
-  color: white;
-  padding: 8px 16px;
-  border: none;
   border-radius: 4px;
-}
 
-.submitButton:hover {
+  &:not(:last-child) {
+    margin-bottom: 8px;
+  }
 
+  &:hover, &.highlighted {
+    background-color: var(--color-light-gray);
+  }
 }

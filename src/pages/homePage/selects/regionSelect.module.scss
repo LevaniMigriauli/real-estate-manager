@@ -61,16 +61,3 @@ input[type="checkbox"]:checked::before {
   top: 0;
   left: 2px;
 }
-
-.submitContainer {
-  padding: 10px;
-  text-align: right;
-}
-
-.submitButton {
-  padding: 8px 16px;
-  background-color: var(--color-flame-red);
-  color: white;
-  border: none;
-  border-radius: 4px;
-}

@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import classes from './customPriceAndAreaDropDown.module.scss'
 import styles from '../../../ui/shared/shareddropDownStyles.module.scss'
 import ChevronDown from '../../../assets/svgIcons/chevron-down.jsx'
+import { formatNumberWithCommas } from '../../../utils/helpers.js'
 
 const CustomPriceAndAreaDropDown = ({
   dropDownDataForFilter,
@@ -18,6 +19,7 @@ const CustomPriceAndAreaDropDown = ({
   const [maxTemporaryValue, setMaxTemporaryValue] = useState(
     dropDownDataForFilter[optionsKey].max || ''
   )
+  const [error, setError] = useState('')
   const inputRef = useRef(null)
 
   const { min, max } = dropDownDataForFilter[optionsKey]
@@ -40,15 +42,24 @@ const CustomPriceAndAreaDropDown = ({
     setMaxTemporaryValue(option)
   }
 
+  const validateInputs = () => {
+    if (minTemporaryValue !== '' && maxTemporaryValue !== '' &&
+      Number(minTemporaryValue) > Number(maxTemporaryValue)) setError(
+      'შეიყვანეთ ვალიდური მონაცემები')
+    else setError('')
+  }
+
   const submitCustomText = () => {
-    setDropDownDataForFilter(prevState => ({
-      ...prevState,
-      [optionsKey]: {
-        min: minTemporaryValue === '' ? '' : minTemporaryValue,
-        max: maxTemporaryValue === '' ? '' : maxTemporaryValue
-      }
-    }))
-    setIsDropdownOpen(false)
+    if (error === '') {
+      setDropDownDataForFilter(prevState => ({
+        ...prevState,
+        [optionsKey]: {
+          min: minTemporaryValue === '' ? '' : minTemporaryValue,
+          max: maxTemporaryValue === '' ? '' : maxTemporaryValue
+        }
+      }))
+      setIsDropdownOpen(false)
+    }
   }
 
   const handleClickOutside = (e) => {
@@ -58,6 +69,10 @@ const CustomPriceAndAreaDropDown = ({
       setMaxTemporaryValue(max !== null ? String(max) : '')
     }
   }
+
+  useEffect(() => {
+    validateInputs()
+  }, [minTemporaryValue, maxTemporaryValue])
 
   useEffect(() => {
     setMinTemporaryValue(String(min))
@@ -77,21 +92,22 @@ const CustomPriceAndAreaDropDown = ({
   return (
     <div className={styles.customSelectContainer} ref={inputRef}>
       <div className={`${styles.selectedValue}`}
-           style={{ backgroundColor: `${isDropdownOpen ? '#F3F3F3' : ''}` }}
+           style={{ backgroundColor: `${isDropdownOpen ? 'var(--color-whisper-gray)' : ''}` }}
            onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
         <p>{label}</p>
-        {isDropdownOpen
-          ? (<span
-            style={{ transform: 'rotate(180deg)' }}>{ChevronDown()}</span>)
-          : (<span>{ChevronDown()}</span>)}
+        <span style={{
+          transform: isDropdownOpen
+            ? 'rotate(180deg)'
+            : 'rotate(0deg)'
+        }}>{ChevronDown()}</span>
       </div>
 
       {isDropdownOpen && (
         <div className={styles.mergedDropdownMenu}>
           <p className={styles.title}>{menuTitle}</p>
-          <div className={classes.columnsContainer}>
+          <div className={classes['columns-container']}>
             <div className={classes.column}>
-              <div className={classes.inputButtonContainer}>
+              <div className={classes.inputContainer}>
                 <input
                   type="text"
                   className={styles.dropdownInput}
@@ -99,9 +115,10 @@ const CustomPriceAndAreaDropDown = ({
                   value={minTemporaryValue}
                   onChange={handleMinInputChange}
                 />
+                {error && <p className={classes.errorMessage}>{error}</p>}
               </div>
               <div className={classes.dropdownOptions}>
-                <p>მინ. {label}</p>
+                <p>მინ. {optionsKey === 'priceRange' ? 'ფასი' : 'მ²'}</p>
                 {options.map((option, index) => (
                   <div
                     key={index}
@@ -109,14 +126,15 @@ const CustomPriceAndAreaDropDown = ({
                       option, minTemporaryValue) ? classes.highlighted : ''}`}
                     onClick={() => handleMinOptionClick(option)}
                   >
-                    {option}
+                    {formatNumberWithCommas(Number(option))} {optionsKey ===
+                  'priceRange' ? '₾' : 'მ²'}
                   </div>
                 ))}
               </div>
             </div>
 
             <div className={classes.column}>
-              <div className={classes.inputButtonContainer}>
+              <div className={classes.inputContainer}>
                 <input
                   type="text"
                   className={styles.dropdownInput}
@@ -126,7 +144,7 @@ const CustomPriceAndAreaDropDown = ({
                 />
               </div>
               <div className={classes.dropdownOptions}>
-                <p>მაქს. {label}</p>
+                <p>მაქს. {optionsKey === 'priceRange' ? 'ფასი' : 'მ²'}</p>
                 {options.map((option, index) => (
                   <div
                     key={index}
@@ -134,15 +152,16 @@ const CustomPriceAndAreaDropDown = ({
                       option, maxTemporaryValue) ? classes.highlighted : ''}`}
                     onClick={() => handleMaxOptionClick(option)}
                   >
-                    {option}
+                    {formatNumberWithCommas(Number(option))} {optionsKey ===
+                  'priceRange' ? '₾' : 'მ²'}
                   </div>
                 ))}
               </div>
             </div>
           </div>
 
-          <div className={classes.submitContainer}>
-            <button className={classes.submitButton} onClick={submitCustomText}>
+          <div className={styles.submitContainer}>
+            <button className={styles.submitButton} onClick={submitCustomText}>
               არჩევა
             </button>
           </div>

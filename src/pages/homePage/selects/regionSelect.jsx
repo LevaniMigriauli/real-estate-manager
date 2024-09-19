@@ -51,13 +51,19 @@ const RegionSelect = ({ dropDownDataForFilter, setDropDownDataForFilter }) => {
 
   return (
     <div className={styles.customSelectContainer} ref={inputRef}>
-      <div className={styles.selectedValue} style={{backgroundColor: `${isDropdownOpen ? '#F3F3F3' : ''}`}}
+      <div className={styles.selectedValue}
+           style={{
+             backgroundColor: `${isDropdownOpen
+               ? 'var(--color-whisper-gray)'
+               : ''}`
+           }}
            onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
         <p>რეგიონი</p>
-        {isDropdownOpen
-          ? (<span
-            style={{ transform: 'rotate(180deg)' }}>{ChevronDown()}</span>)
-          : (<span>{ChevronDown()}</span>)}
+        <span style={{
+          transform: isDropdownOpen
+            ? 'rotate(180deg)'
+            : 'rotate(0deg)'
+        }}>{ChevronDown()}</span>
       </div>
 
       {isDropdownOpen && (
@@ -84,8 +90,8 @@ const RegionSelect = ({ dropDownDataForFilter, setDropDownDataForFilter }) => {
             })}
           </ul>
 
-          <div className={classes.submitContainer}>
-            <button className={classes.submitButton} onClick={submitRegions}>
+          <div className={styles.submitContainer}>
+            <button className={styles.submitButton} onClick={submitRegions}>
               არჩევა
             </button>
           </div>

@@ -1,4 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit'
+import { isAnyFilterApplied } from '../../utils/helpers.js'
 
 const getUniqueProperties = (properties) => {
   const uniqueProperties = new Map()
@@ -13,13 +14,7 @@ export const selectRealEstateFilterData = createSelector(
   (realEstateData, dropDownDataForFilter) => {
     const { regions, priceRange, area, nOfBedrooms } = dropDownDataForFilter
 
-    const isAnyFilterApplied =
-      regions.length > 0 ||
-      priceRange.min !== '' || priceRange.max !== '' ||
-      area.min !== '' || area.max !== '' ||
-      nOfBedrooms !== ''
-
-    if (!isAnyFilterApplied) {
+    if (!isAnyFilterApplied(dropDownDataForFilter)) {
       return realEstateData
     }
 

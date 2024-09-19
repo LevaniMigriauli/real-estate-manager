@@ -48,17 +48,18 @@ const BedroomsDropdown = ({
   return (
     <div className={styles.customSelectContainer} ref={inputRef}>
       <div className={styles.selectedValue}
-           style={{ backgroundColor: `${isDropdownOpen ? '#F3F3F3' : ''}` }}
+           style={{ backgroundColor: `${isDropdownOpen ? 'var(--color-whisper-gray)'  : ''}` }}
            onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
         <p>საძინებლების რაოდენობა</p>
-        {isDropdownOpen
-          ? (<span
-            style={{ transform: 'rotate(180deg)' }}>{ChevronDown()}</span>)
-          : (<span>{ChevronDown()}</span>)}
+        <span style={{
+          transform: isDropdownOpen
+            ? 'rotate(180deg)'
+            : 'rotate(0deg)'
+        }}>{ChevronDown()}</span>
       </div>
 
       {isDropdownOpen && (
-        <div className={`${styles.mergedDropdownMenu} ${styles.regions}`}>
+        <div className={`${styles.mergedDropdownMenu}`}>
           <p className={styles.title}>საძინებლების რაოდენობა</p>
 
           <input
@@ -69,8 +70,8 @@ const BedroomsDropdown = ({
             onChange={handleInputChange}
           />
 
-          <div className={classes.submitContainer}>
-            <button className={classes.submitButton} onClick={submitBedrooms}>
+          <div className={styles.submitContainer}>
+            <button className={styles.submitButton} onClick={submitBedrooms}>
               არჩევა
             </button>
           </div>

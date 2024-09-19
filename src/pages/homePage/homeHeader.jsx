@@ -14,6 +14,7 @@ import {
   FilterSelectedItem,
   FilterSelectedRegions
 } from '../../ui/lib/filterSelectedItem.jsx'
+import { isAnyFilterApplied } from '../../utils/helpers.js'
 
 const priceOptions = [
   '50000',
@@ -53,6 +54,8 @@ const HomeHeader = ({}) => {
     localStorage.setItem('dropDownDataForFilter',
       JSON.stringify(dropDownDataForFilter))
   }, [dropDownDataForFilter])
+
+  console.log(realEstateDataFiltered)
 
   return (
     <header className={classes.header}>
@@ -119,9 +122,11 @@ const HomeHeader = ({}) => {
                               initValue={initialDropDownData.nOfBedrooms}/>}
 
 
-          <button className={classes['btn-empty-all']} onClick={() => setDropDownDataForFilter(
-            initialDropDownData)}>გასუფთავება
-          </button>
+        {isAnyFilterApplied(dropDownDataForFilter) &&
+          <button className={classes['btn-empty-all']}
+                  onClick={() => setDropDownDataForFilter(
+                    initialDropDownData)}>გასუფთავება
+          </button>}
       </div>
 
       <AddAgentModal ref={addAgentModalRef}/>

@@ -11,9 +11,9 @@ const FilterSelectedItem = ({
   return (
     <div className={classes['selected-item']}>
       <p>{type === 'priceRange'
-        ? `${value.min} ₾ - ${value.max || '∞'} ₾`
+        ? `${value.min || '0'} ₾ - ${value.max || '∞'} ₾`
         : type ===
-        'area' ? `${value.min || '0'} მ - ${value.max || '∞'} მ` : value
+        'area' ? `${value.min || '0'} მ² - ${value.max || '∞'} მ²` : value
       }</p>
       <button className={classes['selected-item__btn-remove']}
               onClick={() => setDropDownDataForFilter(prevState => ({
