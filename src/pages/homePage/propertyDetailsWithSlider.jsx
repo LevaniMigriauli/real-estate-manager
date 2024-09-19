@@ -1,5 +1,10 @@
 import { useEffect } from 'react'
 import { deleteRealEstate, getRealEstate } from '../../api/realEstate.js'
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
+import './propertyDetailsWithSlider.scss'
+import CustomSlider from './components/slider.jsx'
 
 const PropertyDetailsWithSlider = ({
   clickedPropertyId,
@@ -12,7 +17,12 @@ const PropertyDetailsWithSlider = ({
   }, [])
 
   return (<div>
-    <button onClick={() => setIsPropertyView(false)}>დაბრუნება</button>
+    <button onClick={() => setIsPropertyView(
+      false)}>დაბრუნება {clickedPropertyId}</button>
+
+
+    <CustomSlider data={realEstateDataFiltered}/>
+
 
     {clickedPropertyId}</div>)
 }
