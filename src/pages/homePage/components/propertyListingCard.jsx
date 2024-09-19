@@ -10,11 +10,11 @@ const PropertyListingCard = ({
     zip_code,
     bedrooms,
     area
-  }
+  }, onClick
 }) => {
 
   return (
-    <div className={classes.property}>
+    <div className={classes.property} onClick={onClick}>
       <div className={classes['img-container']}>
         <img src={image} alt={'Property Image'}/>
       </div>

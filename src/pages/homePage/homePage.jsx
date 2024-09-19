@@ -8,6 +8,7 @@ import {
   selectRealEstateFilterData
 } from '../../redux/selectors/realEstateFilterSelector.js'
 import PropertyListingCard from './components/propertyListingCard.jsx'
+import PropertyDetailsWithSlider from './propertyDetailsWithSlider.jsx'
 
 const initialDropDownData = {
   regions: [],
@@ -22,6 +23,8 @@ const HomePage = () => {
     const savedData = localStorage.getItem('dropDownDataForFilter')
     return savedData ? JSON.parse(savedData) : initialDropDownData
   })
+  const [isPropertyView, setIsPropertyView] = useState(false)
+  const [clickedPropertyId, setClickedPropertyId] = useState('')
   const realEstateDataFiltered = useSelector(
     state => selectRealEstateFilterData(state, dropDownDataForFilter))
 
@@ -35,19 +38,32 @@ const HomePage = () => {
   }, [])
 
   return (
-    <div className={classes.homePage}>
-      <HomeHeader dropDownDataForFilter={dropDownDataForFilter}
-                  setDropDownDataForFilter={setDropDownDataForFilter}
-                  initialDropDownData={initialDropDownData}/>
+    <>
+      {!isPropertyView ?
+        <div className={classes.homePage}>
+          <HomeHeader dropDownDataForFilter={dropDownDataForFilter}
+                      setDropDownDataForFilter={setDropDownDataForFilter}
+                      initialDropDownData={initialDropDownData}/>
 
 
-      <div className={classes.PropertyListing}>
-        {realEstateDataFiltered.map(property => {
-         return <PropertyListingCard key={property.id} property={property}/>
-        })}
-      </div>
+          <div className={classes.PropertyListing}>
+            {realEstateDataFiltered.map(property => {
+              return <PropertyListingCard key={property.id}
+                                          property={property} onClick={() => {
+                setIsPropertyView(true)
+                setClickedPropertyId(property.id)
 
-    </div>
+              }}/>
+            })}
+          </div>
+
+        </div>
+        :
+        <PropertyDetailsWithSlider clickedPropertyId={clickedPropertyId}
+                                   realEstateDataFiltered={realEstateDataFiltered}
+                                   setIsPropertyView={setIsPropertyView}/>
+      }
+    </>
   )
 }
 
