@@ -2,7 +2,7 @@ import styles from '../../../ui/shared/shareddropDownStyles.module.scss'
 import ChevronDown from '../../../assets/svgIcons/chevron-down.jsx'
 import { useEffect, useRef, useState } from 'react'
 import classes
-  from '../../../ui/shared/customPriceAndAreaDropDown/customPriceAndAreaDropDown.module.scss'
+  from './customPriceAndAreaDropDown.module.scss'
 
 const BedroomsDropdown = ({
   dropDownDataForFilter,

@@ -1,0 +1,23 @@
+
+.selected-item {
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 10px;
+  border: 1px solid var(--color-light-gray);
+  border-radius: 43px;
+
+  &__btn-remove {
+    width: fit-content;
+    height: 14px;
+    border: none;
+    cursor: pointer;
+    background: none;
+
+    svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+}

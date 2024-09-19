@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import classes from './customPriceAndAreaDropDown.module.scss'
-import styles from '../shareddropDownStyles.module.scss'
+import styles from '../../../ui/shared/shareddropDownStyles.module.scss'
 import ChevronDown from '../../../assets/svgIcons/chevron-down.jsx'
 
 const CustomPriceAndAreaDropDown = ({

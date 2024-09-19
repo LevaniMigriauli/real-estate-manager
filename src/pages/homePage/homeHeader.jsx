@@ -8,8 +8,12 @@ import {
   selectRealEstateFilterData
 } from '../../redux/selectors/realEstateFilterSelector.js'
 import CustomPriceAndAreaDropDown
-  from '../../ui/shared/customPriceAndAreaDropDown/customPriceAndAreaDropDown.jsx'
+  from './selects/customPriceAndAreaDropDown.jsx'
 import BedroomsDropdown from './selects/bedroomsDropdown.jsx'
+import {
+  FilterSelectedItem,
+  FilterSelectedRegions
+} from '../../ui/lib/filterSelectedItem.jsx'
 
 const priceOptions = [
   '50000',
@@ -43,7 +47,7 @@ const HomeHeader = ({}) => {
   const realEstateDataFiltered = useSelector(
     state => selectRealEstateFilterData(state, dropDownDataForFilter))
 
-  const { area, regions, priceRange, nOfBedrooms } = dropDownDataForFilter
+  const { regions, priceRange, area, nOfBedrooms } = dropDownDataForFilter
 
   useEffect(() => {
     localStorage.setItem('dropDownDataForFilter',
@@ -90,58 +94,34 @@ const HomeHeader = ({}) => {
         </div>
       </div>
 
-      <div>
-        {regions?.map(region => <div key={region.id} style={{
-          background: 'lightgray',
-          width: 'fit-content'
-        }}>
-          <p>{`${region.name}`}</p>
-          <button onClick={() => setDropDownDataForFilter(prevState => ({
-            ...prevState,
-            regions: regions.filter(reg => reg.id !== region.id)
-          }))}>წაშლა
-          </button>
-        </div>)}
+      <div className={classes['bottom-header']}>
 
-        {(priceRange.min || priceRange.max) &&
-          <div style={{ background: 'lightgray', width: 'fit-content' }}>
-            <p>{`${priceRange.min} - ${priceRange.max}`}</p>
-            <button onClick={() => setDropDownDataForFilter(prevState => ({
-              ...prevState,
-              priceRange: { min: '', max: '' }
-            }))}>წაშლა
-            </button>
-          </div>
+        <FilterSelectedRegions
+          regions={regions}
+          setDropDownDataForFilter={setDropDownDataForFilter}
+        />
+
+        {(priceRange.min > 0 || priceRange.max > 0) &&
+          <FilterSelectedItem value={priceRange} type={'priceRange'}
+                              setDropDownDataForFilter={setDropDownDataForFilter}
+                              initValue={initialDropDownData.priceRange}/>
         }
 
         {(area.min || area.max) &&
-          <div style={{ background: 'lightgray', width: 'fit-content' }}>
-            <p>{`${area.min} - ${area.max}`}</p>
-            <button onClick={() => setDropDownDataForFilter(prevState => ({
-              ...prevState,
-              area: { min: '', max: '' }
-            }))}>წაშლა
-            </button>
-          </div>
-        }
+          <FilterSelectedItem value={area} type={'area'}
+                              setDropDownDataForFilter={setDropDownDataForFilter}
+                              initValue={initialDropDownData.area}/>}
 
         {nOfBedrooms &&
-          <div style={{ background: 'lightgray', width: 'fit-content' }}>
-            <p>{nOfBedrooms}</p>
-            <button onClick={() => setDropDownDataForFilter(prevState => ({
-              ...prevState,
-              nOfBedrooms: ''
-            }))}>წაშლა
-            </button>
-          </div>
-        }
+          <FilterSelectedItem value={nOfBedrooms} type={'nOfBedrooms'}
+                              setDropDownDataForFilter={setDropDownDataForFilter}
+                              initialDropDownData={initialDropDownData}
+                              initValue={initialDropDownData.nOfBedrooms}/>}
 
-        <div style={{ background: 'lightgray', width: 'fit-content' }}>
-          <p></p>
-          <button onClick={() => setDropDownDataForFilter(
+
+          <button className={classes['btn-empty-all']} onClick={() => setDropDownDataForFilter(
             initialDropDownData)}>გასუფთავება
           </button>
-        </div>
       </div>
 
       <AddAgentModal ref={addAgentModalRef}/>

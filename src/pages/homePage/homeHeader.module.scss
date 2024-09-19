@@ -1,6 +1,5 @@
 
 .header {
-  //display: flex;
 
   .top-header {
     display: flex;
@@ -16,8 +15,18 @@
     }
   }
 
-  &-buttons {
+  .bottom-header {
+    font-size: 14px;
+    display: flex;
+    gap: 8px;
 
+
+
+    .btn-empty-all {
+      background: none;
+      border: none;
+      font-weight: 600;
+    }
   }
 }
 
