@@ -1,15 +1,11 @@
-import { useEffect, useRef, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import classes from './homeHeader.module.scss'
-import RegionSelect from './selects/regionSelect.jsx'
+import RegionDropdown from './components/dropdowns/regionDropdown.jsx'
 import AddAgentModal from './addAgentModal.jsx'
-import {
-  selectRealEstateFilterData
-} from '../../redux/selectors/realEstateFilterSelector.js'
 import CustomPriceAndAreaDropDown
-  from './selects/customPriceAndAreaDropDown.jsx'
-import BedroomsDropdown from './selects/bedroomsDropdown.jsx'
+  from './components/dropdowns/customPriceAndAreaDropDown.jsx'
+import BedroomsDropdown from './components/dropdowns/bedroomsDropdown.jsx'
 import {
   FilterSelectedItem,
   FilterSelectedRegions
@@ -35,37 +31,17 @@ const areaOptions = [
   '300'
 ]
 
-const initialDropDownData = {
-  regions: [],
-  priceRange: { min: '', max: '' },
-  area: { min: '', max: '' },
-  nOfBedrooms: ''
-}
-
-const HomeHeader = ({}) => {
+const HomeHeader = ({dropDownDataForFilter, setDropDownDataForFilter, initialDropDownData}) => {
   const addAgentModalRef = useRef(null)
-  const [dropDownDataForFilter, setDropDownDataForFilter] = useState(() => {
-    const savedData = localStorage.getItem('dropDownDataForFilter')
-    return savedData ? JSON.parse(savedData) : initialDropDownData
-  })
-  const realEstateDataFiltered = useSelector(
-    state => selectRealEstateFilterData(state, dropDownDataForFilter))
 
   const { regions, priceRange, area, nOfBedrooms } = dropDownDataForFilter
-
-  useEffect(() => {
-    localStorage.setItem('dropDownDataForFilter',
-      JSON.stringify(dropDownDataForFilter))
-  }, [dropDownDataForFilter])
-
-  console.log(realEstateDataFiltered)
 
   return (
     <header className={classes.header}>
       <div className={classes['top-header']}>
         <div className={classes.dropdowns}>
-          <RegionSelect dropDownDataForFilter={dropDownDataForFilter}
-                        setDropDownDataForFilter={setDropDownDataForFilter}/>
+          <RegionDropdown dropDownDataForFilter={dropDownDataForFilter}
+                          setDropDownDataForFilter={setDropDownDataForFilter}/>
 
           <CustomPriceAndAreaDropDown
             dropDownDataForFilter={dropDownDataForFilter}

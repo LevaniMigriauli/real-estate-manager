@@ -1,4 +1,11 @@
 
 .homePage {
   margin-top: 77px;
+
+
+  .PropertyListing {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 20px;
+  }
 }

@@ -2,6 +2,11 @@ export function formatNumberWithCommas(number) {
   return number.toLocaleString('en-US');
 }
 
+export function formatNumberWithSpaces(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+}
+
+
 export const isAnyFilterApplied = (dropDownDataForFilter) => {
   const { regions, priceRange, area, nOfBedrooms } = dropDownDataForFilter
 
