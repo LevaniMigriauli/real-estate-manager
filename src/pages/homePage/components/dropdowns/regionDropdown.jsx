@@ -1,10 +1,10 @@
 import { useState, useRef, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import classes from './regionSelect.module.scss'
-import styles from '../../../ui/shared/shareddropDownStyles.module.scss'
-import ChevronDown from '../../../assets/svgIcons/chevron-down.jsx'
+import classes from './regionDropdown.module.scss'
+import styles from '../../../../ui/shared/shareddropDownStyles.module.scss'
+import ChevronDown from '../../../../assets/svgIcons/chevron-down.jsx'
 
-const RegionSelect = ({ dropDownDataForFilter, setDropDownDataForFilter }) => {
+const RegionDropdown = ({ dropDownDataForFilter, setDropDownDataForFilter }) => {
   const regionOptionsList = useSelector(state => state.regions)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [temporaryChecked, setTemporaryChecked] = useState(
@@ -101,4 +101,4 @@ const RegionSelect = ({ dropDownDataForFilter, setDropDownDataForFilter }) => {
   )
 }
 
-export default RegionSelect
+export default RegionDropdown

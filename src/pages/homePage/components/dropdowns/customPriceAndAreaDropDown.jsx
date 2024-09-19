@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from 'react'
 import classes from './customPriceAndAreaDropDown.module.scss'
-import styles from '../../../ui/shared/shareddropDownStyles.module.scss'
-import ChevronDown from '../../../assets/svgIcons/chevron-down.jsx'
-import { formatNumberWithCommas } from '../../../utils/helpers.js'
+import styles from '../../../../ui/shared/shareddropDownStyles.module.scss'
+import ChevronDown from '../../../../assets/svgIcons/chevron-down.jsx'
+import { formatNumberWithCommas } from '../../../../utils/helpers.js'
 
 const CustomPriceAndAreaDropDown = ({
   dropDownDataForFilter,

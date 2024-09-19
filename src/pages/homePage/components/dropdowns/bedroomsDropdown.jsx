@@ -1,5 +1,5 @@
-import styles from '../../../ui/shared/shareddropDownStyles.module.scss'
-import ChevronDown from '../../../assets/svgIcons/chevron-down.jsx'
+import styles from '../../../../ui/shared/shareddropDownStyles.module.scss'
+import ChevronDown from '../../../../assets/svgIcons/chevron-down.jsx'
 import { useEffect, useRef, useState } from 'react'
 import classes
   from './customPriceAndAreaDropDown.module.scss'
