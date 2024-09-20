@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { deleteRealEstate, getRealEstate } from '../../api/realEstate.js'
 import classes from './propertyDetailsWithSlider.module.scss'
 import CustomSlider from './components/slider.jsx'
@@ -20,11 +20,10 @@ const PropertyDetailsWithSlider = ({
     getRealEstate(clickedPropertyId).then(res => setRealEstateDetails(res))
   }, [clickedPropertyId])
 
-
   return (
-    <div>
-      <button onClick={() => setIsPropertyView(
-        false)}>დაბრუნება {clickedPropertyId}</button>
+    <div className={classes['property-container']}>
+      <button className={classes['btn-goBack']} onClick={() => setIsPropertyView(
+        false)}><Icon name={'slide-left'} viewBox={'0 0 30 30'}/></button>
 
       <div className={classes['real-estate']}>
         <div className={classes['real-estate__img-container']}>
@@ -84,8 +83,6 @@ const PropertyDetailsWithSlider = ({
 
       <CustomSlider realEstatesFilteredByRegions={realEstatesFilteredByRegions}
                     setClickedPropertyId={setClickedPropertyId}/>
-
-      {clickedPropertyId}
     </div>)
 }
 

@@ -7,39 +7,43 @@ const CustomSlider = ({
   realEstatesFilteredByRegions,
   setClickedPropertyId
 }) => {
-  const [currentIndex, setCurrentIndex] = useState(4)
+  const [currentIndex, setCurrentIndex] = useState(0)
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [removedCard, setRemovedCard] = useState(null)
 
   const filteredData = realEstatesFilteredByRegions.filter(
     item => item !== removedCard)
+  const isSliderDisabled = filteredData.length <= 4
 
-  const extendedData = [
+  const extendedData = isSliderDisabled ? filteredData : [
     ...filteredData.slice(-4),
     ...filteredData,
     ...filteredData.slice(0, 4)
   ]
 
   const sliderRef = useRef(null)
-
-  const cardWidthPercentage = 100 / 4
+  const cardWidthPercentage = 100 / Math.min(filteredData.length, 4)
 
   useEffect(() => {
     if (sliderRef.current) {
-      sliderRef.current.style.transform = `translateX(-${currentIndex *
-      cardWidthPercentage}%)`
+      if (isSliderDisabled) {
+        sliderRef.current.style.transform = `translateX(0%)`
+      } else {
+        sliderRef.current.style.transform = `translateX(-${currentIndex *
+        cardWidthPercentage}%)`
+      }
     }
-  }, [currentIndex, cardWidthPercentage])
+  }, [currentIndex, cardWidthPercentage, isSliderDisabled])
 
   const goToNext = () => {
-    if (!isTransitioning) {
+    if (!isSliderDisabled && !isTransitioning) {
       setIsTransitioning(true)
       setCurrentIndex(prevIndex => prevIndex + 1)
     }
   }
 
   const goToPrev = () => {
-    if (!isTransitioning) {
+    if (!isSliderDisabled && !isTransitioning) {
       setIsTransitioning(true)
       setCurrentIndex(prevIndex => prevIndex - 1)
     }
@@ -96,17 +100,21 @@ const CustomSlider = ({
 
   return (
     <div className="slider-wrapper">
-      <button className="slider-button prev-button" onClick={goToPrev}>
+      <button
+        className="slider-button prev-button"
+        onClick={goToPrev}
+        disabled={isSliderDisabled}
+      >
         <Icon name={'slide-left'} viewBox={'0 0 30 30'}/>
       </button>
       <div className="custom-slider">
-        <div
-          className="slider-content"
-          ref={sliderRef}
-        >
+        <div className="slider-content" ref={sliderRef}>
           {extendedData.map((item, index) => (
-            <div key={index} className="slider-item"
-                 style={{ width: `${cardWidthPercentage}%` }}>
+            <div
+              key={index}
+              className="slider-item"
+              style={{ width: `${cardWidthPercentage}%` }}
+            >
               <PropertyListingCard
                 property={item}
                 onClick={() => handleCardClick(item)}
@@ -115,7 +123,11 @@ const CustomSlider = ({
           ))}
         </div>
       </div>
-      <button className="slider-button next-button" onClick={goToNext}>
+      <button
+        className="slider-button next-button"
+        onClick={goToNext}
+        disabled={isSliderDisabled}
+      >
         <Icon name={'slide-right'} viewBox={'0 0 30 30'}/>
       </button>
     </div>

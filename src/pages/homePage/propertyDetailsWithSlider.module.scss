@@ -1,3 +1,20 @@
+.property-container {
+  position: relative;
+  padding-top: 125px;
+
+  .btn-goBack {
+    position: absolute;
+    top: 64px;
+    left: 0;
+    background: none;
+    border: none;
+
+    svg {
+      width: 32px;
+    }
+  }
+}
+
 .real-estate {
   display: grid;
   grid-template-columns: 839px 1fr;
