@@ -9,6 +9,7 @@ import {
 } from '../../redux/selectors/realEstateFilterSelector.js'
 import PropertyListingCard from './components/propertyListingCard.jsx'
 import PropertyDetailsWithSlider from './propertyDetailsWithSlider.jsx'
+import { filterById } from '../../utils/helpers.js'
 
 const initialDropDownData = {
   regions: [],
@@ -27,6 +28,9 @@ const HomePage = () => {
   const [clickedPropertyId, setClickedPropertyId] = useState('')
   const realEstateDataFiltered = useSelector(
     state => selectRealEstateFilterData(state, dropDownDataForFilter))
+
+  let realEstatesFilteredByRegions = filterById(realEstateDataFiltered,
+    clickedPropertyId)
 
   useEffect(() => {
     localStorage.setItem('dropDownDataForFilter',
@@ -56,12 +60,13 @@ const HomePage = () => {
               }}/>
             })}
           </div>
-
         </div>
         :
         <PropertyDetailsWithSlider clickedPropertyId={clickedPropertyId}
-                                   realEstateDataFiltered={realEstateDataFiltered}
-                                   setIsPropertyView={setIsPropertyView}/>
+                                   realEstatesFilteredByRegions={realEstatesFilteredByRegions}
+                                   setIsPropertyView={setIsPropertyView}
+                                   setClickedPropertyId={setClickedPropertyId}
+        />
       }
     </>
   )
