@@ -1,9 +1,12 @@
 import { forwardRef } from 'react'
 import { useForm } from 'react-hook-form'
+import classes from './addAgentModal.module.scss'
 import CustomModal from '../../ui/lib/modal.jsx'
 import Input from '../../ui/lib/input.jsx'
 import ImagePicker from '../../ui/lib/imagePicker.jsx'
 import { createAgents } from '../../api/agents.js'
+import BtnWhite from '../../ui/lib/btnWhite.jsx'
+import BtnOrangeRed from '../../ui/lib/btnOrangeRed.jsx'
 
 const AddAgentModal = forwardRef(({}, ref) => {
   const {
@@ -16,9 +19,9 @@ const AddAgentModal = forwardRef(({}, ref) => {
     reset,
     watch,
     trigger,
-    formState: { errors, touchedFields }
+    formState: { errors, touchedFields, dirtyFields }
   } = useForm({
-    mode: 'onChange'
+    mode: 'onBlur'
     // shouldUnregister: true
   })
 
@@ -42,6 +45,7 @@ const AddAgentModal = forwardRef(({}, ref) => {
     }).catch(() => {
       // error toast
     }).finally(() => {
+      ref.current?.handleCloseModal()
       reset()
     })
   }
@@ -54,78 +58,92 @@ const AddAgentModal = forwardRef(({}, ref) => {
 
   return <CustomModal ref={ref} padding={'87px 105px'} borderRadius={'10px'}
                       width={'1009px'} handleModalClose={handleModalClose}>
-    <h4>აგენტის დამატება</h4>
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Input name="agentName"
-             isReq
-             label={'სახელი'}
-             register={register}
-             validation={{
-               required: 'ჩაწერეთ ვალიდური მონაცემები',
-               minLength: {
-                 value: 2,
-                 message: 'ჩაწერეთ ვალიდური მონაცემები'
-               }
-             }}
-             hint={
-               errors.agentName
-                 ? errors.agentName.message : 'მინიმუმ ორი სიმბოლო'
-             }
-             isTouched={touchedFields}
-             error={errors.agentName}/>
+    <h4 className={classes.header}>აგენტის დამატება</h4>
+    <form className={classes['add-agent-form']}
+          onSubmit={handleSubmit(onSubmit)}>
+      <div className={classes['inputs-layout']}>
+        <Input
+          name="agentName"
+          isReq
+          label={'სახელი'}
+          register={register}
+          validation={{
+            required: 'ჩაწერეთ ვალიდური მონაცემები',
+            minLength: {
+              value: 2,
+              message: 'ჩაწერეთ ვალიდური მონაცემები'
+            }
+          }}
+          hint={
+            errors.agentName
+              ? errors.agentName.message : 'მინიმუმ ორი სიმბოლო'
+          }
+          isTouched={touchedFields.agentName}
+          isDirty={dirtyFields.agentName}
+          error={errors.agentName}/>
 
-      <Input name="surname"
-             isReq
-             label={'გვარი'}
-             register={register}
-             validation={{
-               required: 'ჩაწერეთ ვალიდური მონაცემები',
-               minLength: {
-                 value: 2,
-                 message: 'ჩაწერეთ ვალიდური მონაცემები'
-               }
-             }}
-             hint={
-               errors.surname
-                 ? errors.surname.message : 'მინიმუმ ორი სიმბოლო'
-             }
-             isTouched={touchedFields}
-             error={errors.surname}/>
+        <Input
+          name="surname"
+          isReq
+          label={'გვარი'}
+          register={register}
+          validation={{
+            required: 'ჩაწერეთ ვალიდური მონაცემები',
+            minLength: {
+              value: 2,
+              message: 'ჩაწერეთ ვალიდური მონაცემები'
+            }
+          }}
+          hint={
+            errors.surname
+              ? errors.surname.message : 'მინიმუმ ორი სიმბოლო'
+          }
+          isTouched={touchedFields.surname}
+          isDirty={dirtyFields.surname}
+          error={errors.surname}
+        />
 
-      <Input name={'email'}
-             isReq
-             label={'ელ-ფოსტა'}
-             register={register}
-             validation={{
-               required: 'ჩაწერეთ ვალიდური მონაცემები',
-               pattern: {
-                 value: /^[A-Za-z0-9._%+-]+@redberry\.ge$/,
-                 message: 'ჩაწერეთ ვალიდური მონაცემები'
-               }
-             }}
-             hint={errors.email
-               ? errors.email.message
-               : 'გამოიყენეთ @redberry.ge ფოსტა'}
-             isTouched={touchedFields}
-             error={errors.email}/>
+        <Input
+          name={'email'}
+          isReq
+          label={'ელ-ფოსტა'}
+          register={register}
+          validation={{
+            required: 'ჩაწერეთ ვალიდური მონაცემები',
+            pattern: {
+              value: /^[A-Za-z0-9._%+-]+@redberry\.ge$/,
+              message: 'ჩაწერეთ ვალიდური მონაცემები'
+            }
+          }}
+          hint={errors.email
+            ? errors.email.message
+            : 'გამოიყენეთ @redberry.ge ფოსტა'}
+          isTouched={touchedFields.email}
+          isDirty={dirtyFields.email}
+          error={errors.email}
+        />
 
-      <Input name={'phoneNumber'}
-             isReq
-             label={'ტელეფონის ნომერი'}
-             register={register}
-             validation={{
-               required: 'ჩაწერეთ ვალიდური მონაცემები',
-               pattern: {
-                 value: /^5\d{8}$/,
-                 message: 'ჩაწერეთ ვალიდური მონაცემები'
-               }
-             }}
-             maxLength={9}
-             hint={errors.phoneNumber
-               ? errors.phoneNumber.message
-               : 'მხოლოდ რიცხვები'}
-             isTouched={touchedFields}
-             error={errors.phoneNumber}/>
+        <Input
+          name={'phoneNumber'}
+          isReq
+          label={'ტელეფონის ნომერი'}
+          register={register}
+          validation={{
+            required: 'ჩაწერეთ ვალიდური მონაცემები',
+            pattern: {
+              value: /^5\d{8}$/,
+              message: 'ჩაწერეთ ვალიდური მონაცემები'
+            }
+          }}
+          maxLength={9}
+          hint={errors.phoneNumber
+            ? errors.phoneNumber.message
+            : 'მხოლოდ რიცხვები'}
+          isTouched={touchedFields.phoneNumber}
+          isDirty={dirtyFields.phoneNumber}
+          error={errors.phoneNumber}
+        />
+      </div>
 
       <ImagePicker
         name={'agentPhoto'}
@@ -139,7 +157,15 @@ const AddAgentModal = forwardRef(({}, ref) => {
         trigger={trigger}
       />
 
-      <button>დაამატე აგენტი</button>
+      <div className={classes['buttons-container']}>
+        <BtnWhite
+          type={'button'}
+          onClick={() => {
+            ref.current?.handleCloseModal()
+            handleModalClose()
+          }}>გაუქმება</BtnWhite>
+        <BtnOrangeRed>დაამატე აგენტი</BtnOrangeRed>
+      </div>
     </form>
   </CustomModal>
 })

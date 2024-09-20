@@ -1,38 +1,35 @@
 import classes from './input.module.scss'
 import IcnBlackCheck from '../../assets/svgIcons/black-check.jsx'
 import clsx from 'clsx'
-import { useState } from 'react'
+import { memo } from 'react'
 
 const Input = ({
-  name,
+  name: fieldName,
   register,
   validation,
   label,
   isReq,
   hint,
   error,
-  isTouched
+  isTouched,
+  isDirty,
+  maxLength
 }) => {
-  const [isFocused, setIsFocused] = useState(false)
-
-  let inputIsTouched = false
-
-  if (name in isTouched) {
-    inputIsTouched = true
-  }
 
   return (
     <div className={classes['form-input']}>
-      <label htmlFor={name}>{label}{isReq && '*'}</label>
-      <input id={name} className={error && classes['inp-error']} {...register(
-        name, validation)} type={'text'}
-             onFocus={(e) => e.target.value.length > 1 && setIsFocused(true)}/>
-      <span className={clsx(classes.hint, {
-        [classes.green]: !error && (inputIsTouched || isFocused),
-        [classes['error-red']]: error
-      })}>{IcnBlackCheck()} {hint}</span>
+      <label htmlFor={fieldName}>{label}{isReq && '*'}</label>
+      <input id={fieldName} className={error && classes['inp-error']} maxLength={maxLength} {...register(
+        fieldName, validation)} type={'text'}/>
+      <span className={clsx(classes.hint, classes.default, {
+        [classes['error-red']]: error,
+        [classes['valid-green']]: !error && isDirty && isTouched
+      })}>
+        {/*{IcnBlackCheck()} {hint}*/}
+        {error ? error.message : hint === label ? '' : hint}
+      </span>
     </div>
   )
 }
 
-export default Input
+export default memo(Input)

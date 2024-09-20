@@ -5,6 +5,10 @@
   justify-content: center;
   padding: 43px 0 53px 0;
 
+  &.err-border {
+    border-color: var(--color-flame-red)
+  }
+
   &-img {
     padding: 19px 0;
   }

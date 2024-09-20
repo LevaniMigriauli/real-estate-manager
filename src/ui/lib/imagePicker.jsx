@@ -70,7 +70,8 @@ const ImagePicker = ({
   return (
     <>
       <div className={clsx(classes['file-input'], {
-        [classes['file-input-img']]: imagePreview
+        [classes['file-input-img']]: imagePreview,
+        [classes['err-border']]: error && !isImageError
       })}>
         {imagePreview && (
           <div className={classes.preview}>
