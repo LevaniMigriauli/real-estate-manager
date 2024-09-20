@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { memo, useState } from 'react'
 import { Controller } from 'react-hook-form'
 import styles from './select.module.scss'
 
@@ -52,4 +52,4 @@ const Select = ({
   )
 }
 
-export default Select
+export default memo(Select)

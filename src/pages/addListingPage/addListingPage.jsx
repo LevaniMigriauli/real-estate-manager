@@ -1,12 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import classes from './addListingPage.module.scss'
 import { getCities } from '../../api/geographicalInfo.js'
-import { setCities } from '../../redux/slices/citiesSlice.js'
 import Input from '../../ui/lib/input.jsx'
 import AddAgentModal from '../homePage/addAgentModal.jsx'
-import CustomDropdown from '../../ui/lib/select.jsx'
 import Select from '../../ui/lib/select.jsx'
 
 const generateFormFieldProps = (
@@ -28,14 +26,14 @@ const generateFormFieldProps = (
 const loadFormData = () => {
   const savedData = localStorage.getItem('addListingsForm')
   return savedData ? JSON.parse(savedData) : {
-    is_rental: '0', address: '', zip_code: '', region: ''
+    is_rental: '0', address: '', zip_code: '', region: null, city: null
   }
 }
 
 const AddListingPage = () => {
   const regionOptions = useSelector(state => state.regions)
-  const dispatch = useDispatch()
   const [citiOptions, setCitiOptions] = useState([])
+  const [filteredCityOptions, setFilteredCityOptions] = useState([])
 
   const addAgentModalRef = useRef(null)
   const {
@@ -43,6 +41,8 @@ const AddListingPage = () => {
     watch,
     handleSubmit,
     control,
+    getValues,
+    resetField,
     formState: { errors, dirtyFields, touchedFields }
   } = useForm({ mode: 'onBlur', defaultValues: loadFormData() })
 
@@ -54,11 +54,19 @@ const AddListingPage = () => {
   useEffect(() => {
     getCities().then(res => {
       setCitiOptions(res)
-    // console.log(res)
-    // dispatch(setCities(res))
     })
   }, [])
 
+  const selectedRegion = getValues('region')
+
+  useEffect(() => {
+    setFilteredCityOptions(
+      citiOptions.filter(city => city.region_id === selectedRegion?.id))
+  }, [selectedRegion, citiOptions])
+
+  useEffect(() => {
+    resetField('city')
+  }, [selectedRegion])
 
   useEffect(() => {
     console.log('All Form Values:', formValues)
@@ -156,6 +164,13 @@ const AddListingPage = () => {
             name="region"
             control={control}
             options={regionOptions}
+          />
+
+          <Select
+            label="ქალაქი"
+            name="city"
+            control={control}
+            options={filteredCityOptions}
           />
 
         </div>
