@@ -14,9 +14,12 @@ const AddAgentModal = forwardRef(({}, ref) => {
     getValues,
     resetField,
     reset,
+    watch,
+    trigger,
     formState: { errors, touchedFields }
   } = useForm({
-    mode: 'onBlur'
+    mode: 'onChange'
+    // shouldUnregister: true
   })
 
   const onSubmit = (data) => {
@@ -46,6 +49,8 @@ const AddAgentModal = forwardRef(({}, ref) => {
   const handleModalClose = () => {
     reset()
   }
+
+  const isImageError = watch('agentPhoto') || false
 
   return <CustomModal ref={ref} padding={'87px 105px'} borderRadius={'10px'}
                       width={'1009px'} handleModalClose={handleModalClose}>
@@ -115,15 +120,25 @@ const AddAgentModal = forwardRef(({}, ref) => {
                  message: 'ჩაწერეთ ვალიდური მონაცემები'
                }
              }}
+             maxLength={9}
              hint={errors.phoneNumber
                ? errors.phoneNumber.message
                : 'მხოლოდ რიცხვები'}
              isTouched={touchedFields}
              error={errors.phoneNumber}/>
 
-      <ImagePicker name={'agentPhoto'} register={register} errors={errors}
-                   control={control} setValue={setValue} getValues={getValues}
-                   resetField={resetField}/>
+      <ImagePicker
+        name={'agentPhoto'}
+        register={register}
+        error={errors.agentPhoto}
+        control={control}
+        setValue={setValue}
+        getValues={getValues}
+        resetField={resetField}
+        isImageError={isImageError}
+        trigger={trigger}
+      />
+
       <button>დაამატე აგენტი</button>
     </form>
   </CustomModal>
