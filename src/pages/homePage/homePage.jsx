@@ -37,8 +37,12 @@ const HomePage = () => {
       JSON.stringify(dropDownDataForFilter))
   }, [dropDownDataForFilter])
 
-  useEffect(() => {
+  const handleGetRealEstates = () => {
     getRealEstates().then(res => dispatch(setRealEstates(res)))
+  }
+
+  useEffect(() => {
+    handleGetRealEstates()
   }, [])
 
   return (
@@ -66,6 +70,7 @@ const HomePage = () => {
                                    realEstatesFilteredByRegions={realEstatesFilteredByRegions}
                                    setIsPropertyView={setIsPropertyView}
                                    setClickedPropertyId={setClickedPropertyId}
+                                   handleGetRealEstates={handleGetRealEstates}
         />
       }
     </>

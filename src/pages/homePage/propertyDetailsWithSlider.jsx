@@ -12,7 +12,8 @@ const PropertyDetailsWithSlider = ({
   clickedPropertyId,
   setIsPropertyView,
   setClickedPropertyId,
-  realEstatesFilteredByRegions
+  realEstatesFilteredByRegions,
+  handleGetRealEstates
 }) => {
   const [realEstateDetails, setRealEstateDetails] = useState([])
 
@@ -20,10 +21,18 @@ const PropertyDetailsWithSlider = ({
     getRealEstate(clickedPropertyId).then(res => setRealEstateDetails(res))
   }, [clickedPropertyId])
 
+  const handlePropertyDelete = (propertyId) =>
+    deleteRealEstate(propertyId).then(() => {
+      handleGetRealEstates()
+      setIsPropertyView(false)
+    })
+
   return (
     <div className={classes['property-container']}>
-      <button className={classes['btn-goBack']} onClick={() => setIsPropertyView(
-        false)}><Icon name={'slide-left'} viewBox={'0 0 30 30'}/></button>
+      <button className={classes['btn-goBack']}
+              onClick={() => setIsPropertyView(
+                false)}><Icon name={'slide-left'} viewBox={'0 0 30 30'}/>
+      </button>
 
       <div className={classes['real-estate']}>
         <div className={classes['real-estate__img-container']}>
@@ -34,8 +43,9 @@ const PropertyDetailsWithSlider = ({
         </div>
 
         <div className={classes['real-estate__info']}>
-          <p className={classes.price}>{formatNumberWithCommas(
-            Number(realEstateDetails.price))} ₾</p>
+          <p className={classes.price}>{realEstateDetails &&
+            realEstateDetails.price && formatNumberWithCommas(
+              Number(realEstateDetails.price))} ₾</p>
 
           <div className={classes.basics}>
             <p className={classes['basics__address']}><Icon
@@ -75,7 +85,8 @@ const PropertyDetailsWithSlider = ({
             </div>
           </div>
 
-          <button className={classes['btn-delete-listing']}>
+          <button className={classes['btn-delete-listing']}
+                  onClick={() => handlePropertyDelete(clickedPropertyId)}>
             ლისტინგის წაშლა
           </button>
         </div>
