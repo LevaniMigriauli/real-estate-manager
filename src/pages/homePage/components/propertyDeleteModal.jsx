@@ -7,7 +7,7 @@ import BtnOrangeRed from '../../../ui/lib/btnOrangeRed.jsx'
 const PropertyDeleteModal = forwardRef(({ onConfirm }, ref) => {
 
   return (
-    <Modal ref={ref} isOpen borderRadius={'20px'}>
+    <Modal ref={ref} borderRadius={'20px'}>
       <div className={classes.modal}>
         <h3>გსურთ წაშალოთ ლისტინგი</h3>
         <div className={classes.btns}>
