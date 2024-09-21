@@ -1,11 +1,13 @@
 import React from 'react'
 import { Controller } from 'react-hook-form'
 import classes from './textArea.module.scss'
+import InputLabel from './inputLabel.jsx'
+import clsx from 'clsx'
 
 const Textarea = ({
-  label,
-  id,
   name,
+  label,
+  error,
   control,
   rules = {},
   defaultValue = '',
@@ -21,10 +23,11 @@ const Textarea = ({
       rules={rules}
       render={({ field }) => (
         <div className={classes.description}>
-          <label htmlFor={id}>{label}</label>
+          <InputLabel fieldName={name} label={label} isReq/>
           <textarea
-            className={classes.textarea}
-            id={id}
+            className={clsx(classes.textarea,
+              { [classes['inp-error']]: error })}
+            id={name}
             name={name}
             rows={rows}
             cols={cols}

@@ -30,11 +30,22 @@ const generateFormFieldProps = (
   }
 }
 
+const initialState = {
+  is_rental: '0',
+  address: '',
+  zip_code: '',
+  region: null,
+  city: null,
+  price: '',
+  area: '',
+  bedrooms: '',
+  description: '',
+  agent: null
+}
+
 const loadFormData = () => {
   const savedData = localStorage.getItem('addListingsForm')
-  return savedData ? JSON.parse(savedData) : {
-    is_rental: '0', address: '', zip_code: '', region: null, city: null
-  }
+  return savedData ? JSON.parse(savedData) : initialState
 }
 
 const AddListingPage = () => {
@@ -53,6 +64,7 @@ const AddListingPage = () => {
     resetField,
     setValue,
     trigger,
+    reset,
     formState: { errors, dirtyFields, touchedFields }
   } = useForm({ mode: 'onBlur', defaultValues: loadFormData() })
 
@@ -75,18 +87,11 @@ const AddListingPage = () => {
 
   const selectedRegion = getValues('region') || {}
 
-  useEffect(() => {
+  const handleRegionOptionChange = () => {
     setFilteredCityOptions(
       citiOptions.filter(city => city.region_id === selectedRegion?.id))
-  }, [selectedRegion, citiOptions])
-
-  useEffect(() => {
     resetField('city')
-  }, [selectedRegion])
-
-  useEffect(() => {
-    console.log('All Form Values:', formValues)
-  }, [formValues])
+  }
 
   const validationSchema = {
     is_rental: {
@@ -149,6 +154,10 @@ const AddListingPage = () => {
 
   const isImageError = watch('newProperty') || false
 
+  const handleReset = () => {
+    reset(initialState)
+  }
+
   const onSubmit = (data) => {
     console.log(data)
     localStorage.removeItem('addListingsForm')
@@ -201,16 +210,27 @@ const AddListingPage = () => {
             label="რეგიონი"
             name="region"
             isReq
+            rules={validationSchema.region}
             control={control}
             options={regionOptions}
+            error={errors.region}
+            isDirty={dirtyFields.region}
+            isTouched={touchedFields.region}
+            onRegionOptionSelect={handleRegionOptionChange}
           />
 
           <Select
             label="ქალაქი"
             name="city"
             isReq
+            rules={validationSchema.city}
             control={control}
-            options={filteredCityOptions}
+            options={filteredCityOptions.length
+              ? filteredCityOptions
+              : citiOptions}
+            error={errors.city}
+            isDirty={dirtyFields.city}
+            isTouched={touchedFields.city}
           />
         </div>
 
@@ -254,6 +274,7 @@ const AddListingPage = () => {
           label="აღწერა"
           isReq
           control={control}
+          error={validationSchema.description}
           rules={validationSchema.description}
         />
 
@@ -274,16 +295,21 @@ const AddListingPage = () => {
             <h4 className={classes.heading}>აგენტი</h4>
             <Select
               label="აირჩიე"
-              name="აგენტი"
+              name="agent"
               isReq
+              rules={validationSchema.agent}
               control={control}
               options={agentOptions}
+              error={errors.agent}
+              isDirty={dirtyFields.agent}
+              isTouched={touchedFields.agent}
             />
           </div>
         </div>
 
         <div className={classes.buttons}>
-          <BtnWhite type={'button'}>გაუქმება</BtnWhite>
+          <BtnWhite type={'button'}
+                    onClick={() => handleReset()}>გაუქმება</BtnWhite>
           <BtnOrangeRed>დაამატე ლისტინგი</BtnOrangeRed>
         </div>
       </form>

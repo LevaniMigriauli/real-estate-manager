@@ -6,5 +6,11 @@
     width: 100% !important;
     height: 135px;
     border-radius: 6px;
+    outline: none;
+    padding: 10px;
+
+    &.inp-error {
+      border-color: var(--color-red-error) ;
+    }
   }
 }
