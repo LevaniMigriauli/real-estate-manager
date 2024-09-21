@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react'
+import React, { memo, useEffect, useRef, useState } from 'react'
 import { Controller } from 'react-hook-form'
 import classes from './select.module.scss'
 import InputLabel from './inputLabel.jsx'
@@ -13,6 +13,20 @@ const Select = ({
   onBtnClick = undefined
 }) => {
   const [isOpen, setIsOpen] = useState(false)
+  const dropdownRef = useRef(null)
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [dropdownRef])
 
   return (
     <Controller
@@ -20,7 +34,7 @@ const Select = ({
       control={control}
       defaultValue={defaultValue}
       render={({ field }) => (
-        <div className={classes.dropdownWrapper}>
+        <div className={classes.dropdownWrapper} ref={dropdownRef}>
           <InputLabel label={label} fieldName={name} isReq={isReq}/>
           <div
             className={classes.dropdown}
