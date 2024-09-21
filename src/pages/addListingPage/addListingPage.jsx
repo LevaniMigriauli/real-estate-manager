@@ -353,7 +353,7 @@ const AddListingPage = () => {
           <BtnOrangeRed type={'submit'}>დაამატე ლისტინგი</BtnOrangeRed>
         </div>
       </form>
-      <AddAgentModal ref={addAgentModalRef}/>
+      <AddAgentModal ref={addAgentModalRef} handleGetAgents={handleGetAgents}/>
     </>
   )
 }

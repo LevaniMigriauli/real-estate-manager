@@ -4,27 +4,31 @@ import { useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
 import InputLabel from './inputLabel.jsx'
 
+
+const loadimage = () => {
+  return localStorage.getItem('image') || ''
+}
+
 const ImagePicker = ({
   name,
   register,
   error,
   setValue,
-  getValues,
   resetField,
   isImageError = false,
   trigger
 }) => {
   const imageInputRef = useRef(null)
-  const [imagePreview, setImagePreview] = useState()
+  const [imagePreview, setImagePreview] = useState(loadimage)
 
   const fileMaxSize = 1048576
 
-  useEffect(() => {
-    const storedImage = getValues(name)
-    if (storedImage) {
-      setImagePreview((storedImage))
-    }
-  }, [getValues, name])
+  // useEffect(() => {
+  //   const storedImage = getValues(name)
+  //   if (storedImage) {
+  //     setImagePreview((storedImage))
+  //   }
+  // }, [getValues, name])
 
   const handlePickClick = () => imageInputRef.current.click()
 
@@ -48,7 +52,7 @@ const ImagePicker = ({
 
     fileReader.onload = () => {
       setImagePreview(fileReader.result)
-      setValue(name, fileReader.result)
+      localStorage.setItem('image', fileReader.result)
     }
 
     fileReader.readAsDataURL(file)

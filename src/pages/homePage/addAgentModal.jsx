@@ -8,7 +8,7 @@ import { createAgents } from '../../api/agents.js'
 import BtnWhite from '../../ui/lib/btnWhite.jsx'
 import BtnOrangeRed from '../../ui/lib/btnOrangeRed.jsx'
 
-const AddAgentModal = forwardRef(({}, ref) => {
+const AddAgentModal = forwardRef(({handleGetAgents}, ref) => {
   const {
     register,
     handleSubmit,
@@ -44,6 +44,7 @@ const AddAgentModal = forwardRef(({}, ref) => {
       // success toast
       ref?.current?.handleCloseModal()
       reset()
+      handleGetAgents()
     }).catch(() => {
       // error toast
     }).finally(() => {})

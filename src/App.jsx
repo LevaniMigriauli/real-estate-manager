@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { HashRouter, Route, Routes } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import './App.css'
 import Layout from './pages/layout.jsx'
@@ -22,18 +22,17 @@ function App () {
 
   return (
     <>
-      <BrowserRouter basename={'/real-estate-manager'}>
+      <HashRouter>
         <SvgIcons/>
         <Routes>
           <Route path={'/'} element={<Layout/>}>
             <Route index element={<HomePage/>}/>
             <Route path={'/listing'} element={<ListingPage/>}/>
             <Route path={'/addListing'} element={<AddListingPage/>}/>
-
             <Route path={'*'} element={<ErrorPage/>}/>
           </Route>
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </>
   )
 }
