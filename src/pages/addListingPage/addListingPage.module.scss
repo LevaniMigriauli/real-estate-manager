@@ -7,11 +7,12 @@
 
 .add-listing-form {
   width: 790px;
-  margin: 0 auto;
+  margin: 0 auto 87px auto;
 
   .radioGroup-header {
     margin-bottom: 8px;
   }
+
   .radioGroup {
     display: flex;
     gap: 84px;
@@ -78,7 +79,23 @@
     }
   }
 
+  .location {
+    margin-bottom: 80px;
+  }
 
+  .property-details {
+    margin-bottom: 20px;
+  }
+
+  .agent {
+    margin: 80px 0 90px 0;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+  }
 }
 
 

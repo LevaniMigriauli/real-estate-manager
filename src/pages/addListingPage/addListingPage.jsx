@@ -6,6 +6,12 @@ import { getCities } from '../../api/geographicalInfo.js'
 import Input from '../../ui/lib/input.jsx'
 import AddAgentModal from '../homePage/addAgentModal.jsx'
 import Select from '../../ui/lib/select.jsx'
+import clsx from 'clsx'
+import ImagePicker from '../../ui/lib/imagePicker.jsx'
+import { getAgents } from '../../api/agents.js'
+import BtnWhite from '../../ui/lib/btnWhite.jsx'
+import BtnOrangeRed from '../../ui/lib/btnOrangeRed.jsx'
+import Textarea from '../../ui/lib/textArea.jsx'
 
 const generateFormFieldProps = (
   name, label, hint, isReq,
@@ -34,6 +40,7 @@ const AddListingPage = () => {
   const regionOptions = useSelector(state => state.regions)
   const [citiOptions, setCitiOptions] = useState([])
   const [filteredCityOptions, setFilteredCityOptions] = useState([])
+  const [agentOptions, setAgentOptions] = useState([])
 
   const addAgentModalRef = useRef(null)
   const {
@@ -43,6 +50,8 @@ const AddListingPage = () => {
     control,
     getValues,
     resetField,
+    setValue,
+    trigger,
     formState: { errors, dirtyFields, touchedFields }
   } = useForm({ mode: 'onBlur', defaultValues: loadFormData() })
 
@@ -52,12 +61,18 @@ const AddListingPage = () => {
   }, [formValues])
 
   useEffect(() => {
-    getCities().then(res => {
-      setCitiOptions(res)
-    })
+    getCities().then(res => {setCitiOptions(res)})
+    handleGetAgents()
   }, [])
 
-  const selectedRegion = getValues('region')
+  const handleGetAgents = () => {
+    getAgents().then(res => setAgentOptions(res.map(agent => ({
+      id: agent.id,
+      name: `${agent.name} ${agent.surname}`
+    }))))
+  }
+
+  const selectedRegion = getValues('region') || {}
 
   useEffect(() => {
     setFilteredCityOptions(
@@ -95,8 +110,43 @@ const AddListingPage = () => {
     },
     city: {
       required: 'აირჩიეთ ქალაქი'
+    },
+    price: {
+      required: 'ჩაწერეთ ვალიდური მონაცემები',
+      pattern: {
+        value: /^\d+$/,
+        message: 'მხოლოდ რიცხვები'
+      }
+    },
+    area: {
+      required: 'ჩაწერეთ ვალიდური მონაცემები',
+      pattern: {
+        value: /^\d+$/,
+        message: 'მხოლოდ რიცხვები'
+      }
+    },
+    bedrooms: {
+      required: 'ჩაწერეთ ვალიდური მონაცემები',
+      pattern: {
+        value: /^\d+$/,
+        message: 'მხოლოდ რიცხვები'
+      }
+    },
+    description: {
+      required: 'ჩაწერეთ ვალიდური მონაცემები',
+      validate: {
+        minWords: (value) => {
+          const wordCount = value.trim().split(/\s+/).length
+          return wordCount >= 5 || 'ჩაწერეთ მინიმუმ 5 სიტყვა'
+        }
+      }
+    },
+    agent: {
+      required: 'აირჩიეთ აგენტი'
     }
   }
+
+  const isImageError = watch('newProperty') || false
 
   const onSubmit = (data) => {
     console.log(data)
@@ -137,7 +187,7 @@ const AddListingPage = () => {
         </div>
 
         <h4 className={classes.heading}>მდებარეობა</h4>
-        <div className={classes['grid-col-2']}>
+        <div className={clsx(classes['grid-col-2'], classes.location)}>
           <Input
             {...generateFormFieldProps('address', 'მისამართი',
               'მინიმუმ ორი სიმბოლო', true,
@@ -172,10 +222,79 @@ const AddListingPage = () => {
             control={control}
             options={filteredCityOptions}
           />
-
         </div>
 
+        <h4>ბინის დეტალები</h4>
+        <div
+          className={clsx(classes['grid-col-2'], classes['property-details'])}>
+          <Input
+            {...generateFormFieldProps('price', 'ფასი',
+              'მხოლოდ რიცხვები', true,
+              {
+                register,
+                errors,
+                validationSchema,
+                dirtyFields,
+                touchedFields
+              })}/>
+          <Input
+            {...generateFormFieldProps('area', 'ფართობი',
+              'მხოლოდ რიცხვები', true,
+              {
+                register,
+                errors,
+                validationSchema,
+                dirtyFields,
+                touchedFields
+              })}/>
+          <Input
+            {...generateFormFieldProps('bedrooms', 'საძინებლების რაოდენობა',
+              'მხოლოდ რიცხვები', true,
+              {
+                register,
+                errors,
+                validationSchema,
+                dirtyFields,
+                touchedFields
+              })}/>
+        </div>
 
+        <Textarea
+          label="აღწერა *"
+          id="description"
+          name="description"
+          control={control}
+          rules={validationSchema.description}
+        />
+
+        <ImagePicker
+          name={'newProperty'}
+          register={register}
+          error={errors.newProperty}
+          control={control}
+          setValue={setValue}
+          getValues={getValues}
+          resetField={resetField}
+          isImageError={isImageError}
+          trigger={trigger}
+        />
+
+        <div className={classes['grid-col-2']}>
+          <div className={classes.agent}>
+            <h4>აგენტი</h4>
+            <Select
+              label="აირჩიე"
+              name="აგენტი"
+              control={control}
+              options={agentOptions}
+            />
+          </div>
+        </div>
+
+        <div className={classes.buttons}>
+          <BtnWhite type={'button'}>გაუქმება</BtnWhite>
+          <BtnOrangeRed>დაამატე ლისტინგი</BtnOrangeRed>
+        </div>
       </form>
       <AddAgentModal ref={addAgentModalRef}/>
     </>
