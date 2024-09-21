@@ -22,7 +22,7 @@ const ImagePicker = ({
   useEffect(() => {
     const storedImage = getValues(name)
     if (storedImage) {
-      setImagePreview(URL.createObjectURL(storedImage))
+      setImagePreview((storedImage))
     }
   }, [getValues, name])
 
@@ -48,6 +48,7 @@ const ImagePicker = ({
 
     fileReader.onload = () => {
       setImagePreview(fileReader.result)
+      setValue(name, fileReader.result)
     }
 
     fileReader.readAsDataURL(file)
@@ -70,7 +71,7 @@ const ImagePicker = ({
 
   return (
     <>
-      <InputLabel fieldName={name} label={'ატვირთეთ ფოტო'} isReq />
+      <InputLabel fieldName={name} label={'ატვირთეთ ფოტო'} isReq/>
       <div className={clsx(classes['file-input'], {
         [classes['file-input-img']]: imagePreview,
         [classes['err-border']]: error && !isImageError

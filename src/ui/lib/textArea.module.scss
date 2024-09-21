@@ -10,7 +10,18 @@
     padding: 10px;
 
     &.inp-error {
-      border-color: var(--color-red-error) ;
+      border-color: var(--color-red-error);
     }
+  }
+  .hint {
+    font-size: 14px;
+  }
+
+  .error-red {
+    color: var(--color-red-error);
+  }
+
+  .valid-green {
+    color: var(--color-green-success);
   }
 }

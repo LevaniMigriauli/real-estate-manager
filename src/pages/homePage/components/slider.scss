@@ -7,6 +7,11 @@
   width: 100%;
   overflow-x: hidden; /* Only hides horizontal overflow */
   overflow-y: visible; /* Ensures vertical overflow is visible */
+
+  &__header {
+    font-size: 32px;
+    margin-bottom: 52px;
+  }
 }
 
 .slider-content {

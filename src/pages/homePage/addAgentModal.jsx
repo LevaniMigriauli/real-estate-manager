@@ -42,12 +42,11 @@ const AddAgentModal = forwardRef(({}, ref) => {
 
     createAgents(form).then(() => {
       // success toast
-    }).catch(() => {
-      // error toast
-    }).finally(() => {
       ref.current?.handleCloseModal()
       reset()
-    })
+    }).catch(() => {
+      // error toast
+    }).finally(() => {})
   }
 
   const handleModalClose = () => {
@@ -74,10 +73,7 @@ const AddAgentModal = forwardRef(({}, ref) => {
               message: 'ჩაწერეთ ვალიდური მონაცემები'
             }
           }}
-          hint={
-            errors.agentName
-              ? errors.agentName.message : 'მინიმუმ ორი სიმბოლო'
-          }
+          hint={'მინიმუმ ორი სიმბოლო'}
           isTouched={touchedFields.agentName}
           isDirty={dirtyFields.agentName}
           error={errors.agentName}/>
@@ -94,10 +90,7 @@ const AddAgentModal = forwardRef(({}, ref) => {
               message: 'ჩაწერეთ ვალიდური მონაცემები'
             }
           }}
-          hint={
-            errors.surname
-              ? errors.surname.message : 'მინიმუმ ორი სიმბოლო'
-          }
+          hint={'მინიმუმ ორი სიმბოლო'}
           isTouched={touchedFields.surname}
           isDirty={dirtyFields.surname}
           error={errors.surname}
@@ -115,9 +108,7 @@ const AddAgentModal = forwardRef(({}, ref) => {
               message: 'ჩაწერეთ ვალიდური მონაცემები'
             }
           }}
-          hint={errors.email
-            ? errors.email.message
-            : 'გამოიყენეთ @redberry.ge ფოსტა'}
+          hint={'გამოიყენეთ @redberry.ge ფოსტა'}
           isTouched={touchedFields.email}
           isDirty={dirtyFields.email}
           error={errors.email}
@@ -136,9 +127,7 @@ const AddAgentModal = forwardRef(({}, ref) => {
             }
           }}
           maxLength={9}
-          hint={errors.phoneNumber
-            ? errors.phoneNumber.message
-            : 'მხოლოდ რიცხვები'}
+          hint={'მხოლოდ რიცხვები'}
           isTouched={touchedFields.phoneNumber}
           isDirty={dirtyFields.phoneNumber}
           error={errors.phoneNumber}

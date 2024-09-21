@@ -1,7 +1,6 @@
 import apiClient from './apiClient.js'
 
 export const createAgents = (formData) => {
-  console.log(formData)
   return apiClient.post('/agents', formData).then(res => res.data)
 }
 

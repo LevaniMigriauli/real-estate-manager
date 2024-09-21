@@ -9,12 +9,16 @@ const Textarea = ({
   label,
   error,
   control,
+  isDirty,
+  isTouched,
   rules = {},
   defaultValue = '',
   rows = 4,
   cols = 50,
   maxLength = 1000
 }) => {
+  const hint = 'შეიყვანეთ ვალიდური მონაცემები'
+
   return (
     <Controller
       name={name}
@@ -35,6 +39,10 @@ const Textarea = ({
             value={field.value}
             onChange={field.onChange}
           />
+          <p className={clsx(classes.hint, {
+            [classes['error-red']]: error,
+            [classes['valid-green']]: !error && isDirty && isTouched
+          })}>{error.message ? error.message : hint}</p>
         </div>
       )}
     />

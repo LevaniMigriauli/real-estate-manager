@@ -1,5 +1,4 @@
 import classes from './input.module.scss'
-import IcnBlackCheck from '../../assets/svgIcons/black-check.jsx'
 import clsx from 'clsx'
 import { memo } from 'react'
 import InputLabel from './inputLabel.jsx'
@@ -23,7 +22,7 @@ const Input = ({
       <input id={fieldName} className={error && classes['inp-error']}
              maxLength={maxLength} {...register(
         fieldName, validation)} type={'text'}/>
-      <span className={clsx(classes.hint, classes.default, {
+      <span className={clsx(classes.hint, {
         [classes['error-red']]: error,
         [classes['valid-green']]: !error && isDirty && isTouched
       })}>

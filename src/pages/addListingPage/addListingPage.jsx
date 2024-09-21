@@ -13,6 +13,7 @@ import BtnWhite from '../../ui/lib/btnWhite.jsx'
 import BtnOrangeRed from '../../ui/lib/btnOrangeRed.jsx'
 import Textarea from '../../ui/lib/textArea.jsx'
 import Radio from '../../ui/lib/radio.jsx'
+import { createRealEstate } from '../../api/realEstate.js'
 
 const generateFormFieldProps = (
   name, label, hint, isReq,
@@ -40,7 +41,8 @@ const initialState = {
   area: '',
   bedrooms: '',
   description: '',
-  agent: null
+  agent: null,
+  newProperty: null
 }
 
 const loadFormData = () => {
@@ -74,7 +76,10 @@ const AddListingPage = () => {
   }, [formValues])
 
   useEffect(() => {
-    getCities().then(res => {setCitiOptions(res)})
+    getCities().then(res => {
+      setCitiOptions(res)
+      handleRegionOptionChange()
+    })
     handleGetAgents()
   }, [])
 
@@ -92,6 +97,11 @@ const AddListingPage = () => {
       citiOptions.filter(city => city.region_id === selectedRegion?.id))
     resetField('city')
   }
+
+  const region = watch('region')
+  useEffect(()=> {
+    handleRegionOptionChange()
+  }, [region])
 
   const validationSchema = {
     is_rental: {
@@ -160,7 +170,31 @@ const AddListingPage = () => {
 
   const onSubmit = (data) => {
     console.log(data)
-    localStorage.removeItem('addListingsForm')
+
+    const form = new FormData
+    form.append('address', data.address)
+    form.append('region_id', data.region.id)
+    form.append('description', data.description)
+    form.append('city_id', data.city.id)
+    form.append('zip_code', data.zip_code)
+    form.append('price', data.price)
+    form.append('area', data.area)
+    form.append('bedrooms', data.bedrooms)
+    form.append('is_rental', data.is_rental)
+    form.append('agent_id', data.agent.id)
+
+    if (data.newProperty) {
+      form.append('image', data.newProperty)
+    } else {
+      //error toast
+      return
+    }
+
+    createRealEstate(form).
+      then(() => {
+        handleReset()
+        localStorage.removeItem('addListingsForm')
+      })
   }
 
   const radioOptions = [
@@ -274,7 +308,9 @@ const AddListingPage = () => {
           label="აღწერა"
           isReq
           control={control}
-          error={validationSchema.description}
+          error={errors.description}
+          isDirty={dirtyFields.description}
+          isTouched={touchedFields.description}
           rules={validationSchema.description}
         />
 
@@ -310,7 +346,7 @@ const AddListingPage = () => {
         <div className={classes.buttons}>
           <BtnWhite type={'button'}
                     onClick={() => handleReset()}>გაუქმება</BtnWhite>
-          <BtnOrangeRed>დაამატე ლისტინგი</BtnOrangeRed>
+          <BtnOrangeRed type={'submit'}>დაამატე ლისტინგი</BtnOrangeRed>
         </div>
       </form>
       <AddAgentModal ref={addAgentModalRef}/>

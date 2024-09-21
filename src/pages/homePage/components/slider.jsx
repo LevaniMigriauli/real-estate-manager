@@ -100,36 +100,41 @@ const CustomSlider = ({
 
   return (
     <div className="slider-wrapper">
-      <button
+      {extendedData.length && <button
         className="slider-button prev-button"
         onClick={goToPrev}
         disabled={isSliderDisabled}
       >
         <Icon name={'slide-left'} viewBox={'0 0 30 30'}/>
-      </button>
+      </button>}
       <div className="custom-slider">
+        <h3 className={'custom-slider__header'}>ბინები მსგავს ლოკაციაზე</h3>
         <div className="slider-content" ref={sliderRef}>
-          {extendedData.map((item, index) => (
-            <div
-              key={index}
-              className="slider-item"
-              style={{ width: `${cardWidthPercentage}%` }}
-            >
-              <PropertyListingCard
-                property={item}
-                onClick={() => handleCardClick(item)}
-              />
-            </div>
-          ))}
+          {extendedData.length ? (
+            extendedData.map((item, index) => (
+              <div
+                key={index}
+                className="slider-item"
+                style={{ width: `${cardWidthPercentage}%` }}
+              >
+                <PropertyListingCard
+                  property={item}
+                  onClick={() => handleCardClick(item)}
+                />
+              </div>
+            ))
+          ) : (
+            <div>არ მოიძებნა</div>
+          )}
         </div>
       </div>
-      <button
+      {extendedData.length && <button
         className="slider-button next-button"
         onClick={goToNext}
         disabled={isSliderDisabled}
       >
         <Icon name={'slide-right'} viewBox={'0 0 30 30'}/>
-      </button>
+      </button>}
     </div>
   )
 }
