@@ -339,6 +339,7 @@ const AddListingPage = () => {
               error={errors.agent}
               isDirty={dirtyFields.agent}
               isTouched={touchedFields.agent}
+              onBtnClick={addAgentModalRef.current.handleOpenModal}
             />
           </div>
         </div>

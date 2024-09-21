@@ -42,16 +42,14 @@ const AddAgentModal = forwardRef(({}, ref) => {
 
     createAgents(form).then(() => {
       // success toast
-      ref.current?.handleCloseModal()
+      ref?.current?.handleCloseModal()
       reset()
     }).catch(() => {
       // error toast
     }).finally(() => {})
   }
 
-  const handleModalClose = () => {
-    reset()
-  }
+  const handleModalClose = () => reset()
 
   const isImageError = watch('agentPhoto') || false
 

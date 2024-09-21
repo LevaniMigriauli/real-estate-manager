@@ -4,6 +4,7 @@ import classes from './select.module.scss'
 import InputLabel from './inputLabel.jsx'
 import clsx from 'clsx'
 import chevronDown from '../../assets/svgIcons/chevron-down.jsx'
+import Icon from '../shared/svgIcons/Icon.jsx'
 
 const Select = ({
   label,
@@ -36,9 +37,6 @@ const Select = ({
 
   const hint = `აირჩიეთ მონაცემები`
 
-  console.log(name)
-  console.log(options)
-
   return (
     <Controller
       name={name}
@@ -49,7 +47,8 @@ const Select = ({
         <div className={classes.dropdownWrapper} ref={dropdownRef}>
           <InputLabel label={label} fieldName={name} isReq={isReq}/>
           <div
-            className={clsx(classes.dropdown, { [classes.isOpened]: isOpen , [classes['inp-error']] : error})}
+            className={clsx(classes.dropdown,
+              { [classes.isOpened]: isOpen, [classes['inp-error']]: error })}
             onClick={() => setIsOpen(!isOpen)}
           >
             <div className={classes.dropdownSelected}>
@@ -60,8 +59,11 @@ const Select = ({
                 ? classes.show
                 : ''}`}
             >
-              {onBtnClick && <div className={classes.dropdownItem}
-                                  onClick={onBtnClick}>button</div>}
+              {onBtnClick && <div
+                className={clsx(classes.dropdownItem, classes['add-agent'])}
+                onClick={onBtnClick}><span><Icon name={'plusCircle'}
+                                                 viewBox={'0 0 24 24'}/>დაამატე
+                აგენტი</span></div>}
               {options?.map((option) => (
                 <div
                   key={option.id}
