@@ -42,7 +42,7 @@ const Textarea = ({
           <p className={clsx(classes.hint, {
             [classes['error-red']]: error,
             [classes['valid-green']]: !error && isDirty && isTouched
-          })}>{error.message ? error.message : hint}</p>
+          })}>{error?.message ? error.message : hint}</p>
         </div>
       )}
     />

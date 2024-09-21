@@ -22,7 +22,7 @@ function App () {
 
   return (
     <>
-      <BrowserRouter>
+      <BrowserRouter basename={'/real-estate-manager'}>
         <SvgIcons/>
         <Routes>
           <Route path={'/'} element={<Layout/>}>
