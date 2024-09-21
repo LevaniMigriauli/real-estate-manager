@@ -1,0 +1,14 @@
+
+.modal {
+  padding: 58px 170px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+  align-items: center;
+
+  .btns {
+    display: flex;
+    gap: 15px;
+  }
+}

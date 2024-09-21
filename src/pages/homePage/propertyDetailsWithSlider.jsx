@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { deleteRealEstate, getRealEstate } from '../../api/realEstate.js'
 import classes from './propertyDetailsWithSlider.module.scss'
 import CustomSlider from './components/slider.jsx'
@@ -7,6 +7,7 @@ import {
   formatDateToMMDDYYYY,
   formatNumberWithCommas
 } from '../../utils/helpers.js'
+import PropertyDeleteModal from './components/propertyDeleteModal.jsx'
 
 const PropertyDetailsWithSlider = ({
   clickedPropertyId,
@@ -15,6 +16,7 @@ const PropertyDetailsWithSlider = ({
   realEstatesFilteredByRegions,
   handleGetRealEstates
 }) => {
+  const propertyDeleteModalRef = useRef(null)
   const [realEstateDetails, setRealEstateDetails] = useState([])
 
   useEffect(() => {
@@ -86,15 +88,21 @@ const PropertyDetailsWithSlider = ({
           </div>
 
           <button className={classes['btn-delete-listing']}
-                  onClick={() => handlePropertyDelete(clickedPropertyId)}>
+                  onClick={() =>
+                    propertyDeleteModalRef.current?.handleOpenModal()}>
             ლისტინგის წაშლა
           </button>
+
+          <PropertyDeleteModal ref={propertyDeleteModalRef}
+                               onConfirm={() =>
+                                 handlePropertyDelete(clickedPropertyId)}/>
         </div>
       </div>
 
       <CustomSlider realEstatesFilteredByRegions={realEstatesFilteredByRegions}
                     setClickedPropertyId={setClickedPropertyId}/>
-    </div>)
+    </div>
+  )
 }
 
 export default PropertyDetailsWithSlider
