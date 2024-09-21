@@ -100,7 +100,7 @@ const CustomSlider = ({
 
   return (
     <div className="slider-wrapper">
-      {extendedData.length && <button
+      {extendedData.length > 0 && <button
         className="slider-button prev-button"
         onClick={goToPrev}
         disabled={isSliderDisabled}
@@ -128,7 +128,7 @@ const CustomSlider = ({
           )}
         </div>
       </div>
-      {extendedData.length && <button
+      {extendedData.length > 0 && <button
         className="slider-button next-button"
         onClick={goToNext}
         disabled={isSliderDisabled}

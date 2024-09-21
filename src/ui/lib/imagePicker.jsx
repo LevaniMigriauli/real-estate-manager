@@ -74,7 +74,7 @@ const ImagePicker = ({
       <InputLabel fieldName={name} label={'ატვირთეთ ფოტო'} isReq/>
       <div className={clsx(classes['file-input'], {
         [classes['file-input-img']]: imagePreview,
-        [classes['err-border']]: error && !isImageError
+        [classes['err-border']]: error
       })}>
         {imagePreview && (
           <div className={classes.preview}>
@@ -117,9 +117,9 @@ const ImagePicker = ({
       </div>
       <p className={clsx(classes.default,
         {
-          [classes.err]: error && !isImageError,
+          [classes.err]: error,
           [classes.succ]: !error && imagePreview
-        })}>{error && !isImageError
+        })}>{error && isImageError
         ? error.message
         : 'ატვირთეთ ფოტო'}</p>
     </>

@@ -14,6 +14,7 @@ import BtnOrangeRed from '../../ui/lib/btnOrangeRed.jsx'
 import Textarea from '../../ui/lib/textArea.jsx'
 import Radio from '../../ui/lib/radio.jsx'
 import { createRealEstate } from '../../api/realEstate.js'
+import { useNavigate } from 'react-router-dom'
 
 const generateFormFieldProps = (
   name, label, hint, isReq,
@@ -55,6 +56,7 @@ const AddListingPage = () => {
   const [citiOptions, setCitiOptions] = useState([])
   const [filteredCityOptions, setFilteredCityOptions] = useState([])
   const [agentOptions, setAgentOptions] = useState([])
+  const navigate = useNavigate()
 
   const addAgentModalRef = useRef(null)
   const {
@@ -169,8 +171,6 @@ const AddListingPage = () => {
   }
 
   const onSubmit = (data) => {
-    console.log(data)
-
     const form = new FormData
     form.append('address', data.address)
     form.append('region_id', data.region.id)
@@ -339,14 +339,17 @@ const AddListingPage = () => {
               error={errors.agent}
               isDirty={dirtyFields.agent}
               isTouched={touchedFields.agent}
-              onBtnClick={addAgentModalRef.current.handleOpenModal}
+              onBtnClick={addAgentModalRef.current?.handleOpenModal}
             />
           </div>
         </div>
 
         <div className={classes.buttons}>
           <BtnWhite type={'button'}
-                    onClick={() => handleReset()}>გაუქმება</BtnWhite>
+                    onClick={() => {
+                      handleReset()
+                      navigate('/')
+                    }}>გაუქმება</BtnWhite>
           <BtnOrangeRed type={'submit'}>დაამატე ლისტინგი</BtnOrangeRed>
         </div>
       </form>
