@@ -2,6 +2,7 @@ import classes from './imagePicker.module.scss'
 import Icon from '../shared/svgIcons/Icon.jsx'
 import { useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
+import InputLabel from './inputLabel.jsx'
 
 const ImagePicker = ({
   name,
@@ -69,6 +70,7 @@ const ImagePicker = ({
 
   return (
     <>
+      <InputLabel fieldName={name} label={'ატვირთეთ ფოტო'} isReq />
       <div className={clsx(classes['file-input'], {
         [classes['file-input-img']]: imagePreview,
         [classes['err-border']]: error && !isImageError
@@ -86,6 +88,7 @@ const ImagePicker = ({
         )}
         <input
           className={classes.input}
+          id={name}
           name={name}
           {...register(name, {
             required: 'ატვირთეთ ფოტო',
@@ -111,9 +114,13 @@ const ImagePicker = ({
           </button>
         )}
       </div>
-      {error && !isImageError && (
-        <p className={classes.err}>{error.message}</p>
-      )}
+      <p className={clsx(classes.default,
+        {
+          [classes.err]: error && !isImageError,
+          [classes.succ]: !error && imagePreview
+        })}>{error && !isImageError
+        ? error.message
+        : 'ატვირთეთ ფოტო'}</p>
     </>
   )
 }

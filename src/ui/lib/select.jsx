@@ -1,10 +1,12 @@
 import React, { memo, useState } from 'react'
 import { Controller } from 'react-hook-form'
-import styles from './select.module.scss'
+import classes from './select.module.scss'
+import InputLabel from './inputLabel.jsx'
 
 const Select = ({
   label,
   name,
+  isReq = false,
   control,
   options,
   defaultValue = null,
@@ -18,24 +20,26 @@ const Select = ({
       control={control}
       defaultValue={defaultValue}
       render={({ field }) => (
-        <div className={styles.dropdownWrapper}>
-          <label className={styles.label}>{label}</label>
+        <div className={classes.dropdownWrapper}>
+          <InputLabel label={label} fieldName={name} isReq={isReq}/>
           <div
-            className={styles.dropdown}
+            className={classes.dropdown}
             onClick={() => setIsOpen(!isOpen)}
           >
-            <div className={styles.dropdownSelected}>
+            <div className={classes.dropdownSelected}>
               {field.value ? field.value.name : ''}
             </div>
             <div
-              className={`${styles.dropdownMenu} ${isOpen ? styles.show : ''}`}
+              className={`${classes.dropdownMenu} ${isOpen
+                ? classes.show
+                : ''}`}
             >
-              {onBtnClick && <div className={styles.dropdownItem}
+              {onBtnClick && <div className={classes.dropdownItem}
                                   onClick={onBtnClick}>button</div>}
               {options.map((option) => (
                 <div
                   key={option.id}
-                  className={styles.dropdownItem}
+                  className={classes.dropdownItem}
                   onClick={() => {
                     field.onChange(option)
                     setIsOpen(false)

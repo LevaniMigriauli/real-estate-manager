@@ -12,6 +12,7 @@ import { getAgents } from '../../api/agents.js'
 import BtnWhite from '../../ui/lib/btnWhite.jsx'
 import BtnOrangeRed from '../../ui/lib/btnOrangeRed.jsx'
 import Textarea from '../../ui/lib/textArea.jsx'
+import Radio from '../../ui/lib/radio.jsx'
 
 const generateFormFieldProps = (
   name, label, hint, isReq,
@@ -153,6 +154,11 @@ const AddListingPage = () => {
     localStorage.removeItem('addListingsForm')
   }
 
+  const radioOptions = [
+    { label: 'იყიდება', value: '0' },
+    { label: 'ქირავდება', value: '1' }
+  ]
+
   return (
     <>
       <form className={classes['add-listing-form']}
@@ -160,31 +166,13 @@ const AddListingPage = () => {
         <h2 className={classes['main-header']}>ლისტინგის დამატება</h2>
 
         <h4 className={classes['radioGroup-header']}>გარიგების ტიპი</h4>
-        <div className={classes.radioGroup}>
-          <label className={classes.radioLabel}>
-            <input
-              type="radio"
-              name={'is_rental'}
-              value={0}
-              {...register('is_rental', { required: true })}
-              className={classes.radioInput}
-            />
-            <span className={classes.radioCustom}></span>
-            იყიდება
-          </label>
-
-          <label className={classes.radioLabel}>
-            <input
-              type="radio"
-              name={'is_rental'}
-              value={1}
-              {...register('is_rental', { required: true })}
-              className={classes.radioInput}
-            />
-            <span className={classes.radioCustom}></span>
-            ქირავდება
-          </label>
-        </div>
+        <Radio
+          name="is_rental"
+          options={radioOptions}
+          register={register}
+          required={true}
+          className={classes}
+        />
 
         <h4 className={classes.heading}>მდებარეობა</h4>
         <div className={clsx(classes['grid-col-2'], classes.location)}>
@@ -212,6 +200,7 @@ const AddListingPage = () => {
           <Select
             label="რეგიონი"
             name="region"
+            isReq
             control={control}
             options={regionOptions}
           />
@@ -219,12 +208,13 @@ const AddListingPage = () => {
           <Select
             label="ქალაქი"
             name="city"
+            isReq
             control={control}
             options={filteredCityOptions}
           />
         </div>
 
-        <h4>ბინის დეტალები</h4>
+        <h4 className={classes.heading}>ბინის დეტალები</h4>
         <div
           className={clsx(classes['grid-col-2'], classes['property-details'])}>
           <Input
@@ -260,9 +250,9 @@ const AddListingPage = () => {
         </div>
 
         <Textarea
-          label="აღწერა *"
-          id="description"
           name="description"
+          label="აღწერა"
+          isReq
           control={control}
           rules={validationSchema.description}
         />
@@ -281,10 +271,11 @@ const AddListingPage = () => {
 
         <div className={classes['grid-col-2']}>
           <div className={classes.agent}>
-            <h4>აგენტი</h4>
+            <h4 className={classes.heading}>აგენტი</h4>
             <Select
               label="აირჩიე"
               name="აგენტი"
+              isReq
               control={control}
               options={agentOptions}
             />

@@ -2,6 +2,7 @@ import classes from './input.module.scss'
 import IcnBlackCheck from '../../assets/svgIcons/black-check.jsx'
 import clsx from 'clsx'
 import { memo } from 'react'
+import InputLabel from './inputLabel.jsx'
 
 const Input = ({
   name: fieldName,
@@ -18,8 +19,9 @@ const Input = ({
 
   return (
     <div className={classes['form-input']}>
-      <label htmlFor={fieldName}>{label}{isReq && '*'}</label>
-      <input id={fieldName} className={error && classes['inp-error']} maxLength={maxLength} {...register(
+      <InputLabel label={label} fieldName={fieldName} isReq={isReq}/>
+      <input id={fieldName} className={error && classes['inp-error']}
+             maxLength={maxLength} {...register(
         fieldName, validation)} type={'text'}/>
       <span className={clsx(classes.hint, classes.default, {
         [classes['error-red']]: error,

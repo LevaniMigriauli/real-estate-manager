@@ -50,7 +50,15 @@
   }
 }
 
-.err {
+.default{
   font-size: 14px;
+  color: var(--color-rich-black);
+}
+
+.err {
   color: var(--color-red-error);
+}
+
+.succ {
+  color: var(--color-green-success);
 }
